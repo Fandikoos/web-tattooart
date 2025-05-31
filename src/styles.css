@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+body {
+    background: linear-gradient(135deg, #2e2e38, #434353, #5a5a68);
+    font-family: 'Arial', sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+  }
+  
+h1, h2, p {
+    color: white;
+}
+
