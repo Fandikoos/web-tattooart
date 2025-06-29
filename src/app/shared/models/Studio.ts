@@ -8,6 +8,7 @@ export interface Studio {
     latitud:  number;
     longitud: number;
     rating:   number;
+    logo:     string;
     artists:  Artist[];
     images:   StudioImage[];
 }

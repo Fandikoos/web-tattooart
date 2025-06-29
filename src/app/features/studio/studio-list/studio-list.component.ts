@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { StudioService } from '../../../shared/services/studio.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ButtonModule } from 'primeng/button';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
@@ -9,7 +10,7 @@ import { ButtonModule } from 'primeng/button';
   templateUrl: './studio-list.component.html',
   styleUrls: ['./studio-list.component.css'],
   imports:[
-    ButtonModule
+    RouterLink
   ]
 })
 export class StudioListComponent implements OnInit {
