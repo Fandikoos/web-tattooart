@@ -2,18 +2,19 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { Observable } from 'rxjs';
-import { Artist } from '../models/Artist';
+import { Studio } from '../models/Studio';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ArtistService {
+export class StudioService {
 
   private httpClient = inject(HttpClient);
-  private urlApiArtist = environment.apiUrlArtist;
+  private urlApiStudio = environment.apiUrlStudio;
 
-  getUser(idArtist: number): Observable<Artist>{
-      return this.httpClient.get<Artist>(`${this.urlApiArtist}/${idArtist}`);
+  getAll(): Observable<Studio[]>{
+    return this.httpClient.get<Studio[]>(this.urlApiStudio);
   }
+
 
 }
