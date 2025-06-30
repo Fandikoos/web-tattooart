@@ -1,0 +1,20 @@
+<div class="parent">
+  <!--Info del estudio-->
+  <div class="studio">INFORMACION ESTUDIO AUMENTADA</div>
+
+  <!--Info de los artistas-->
+  @if (artistsByStudio() != null) {
+
+    <div class="artist-parent">
+      @for (artist of artistsByStudio(); track $index) {
+        <div>
+            {{artist.name}} - {{artist.email}}
+        </div>
+      }
+    </div>
+
+  } @else {
+    <p>No hay artistas en este estudio</p>
+  }
+
+</div>
