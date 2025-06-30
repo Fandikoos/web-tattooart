@@ -12,8 +12,8 @@ export class ArtistService {
   private httpClient = inject(HttpClient);
   private urlApiArtist = environment.apiUrlArtist;
 
-  getUser(idArtist: number): Observable<Artist>{
-      return this.httpClient.get<Artist>(`${this.urlApiArtist}/${idArtist}`);
+  getArtistByIdStudio(idStudio: number): Observable<Artist[]>{
+      return this.httpClient.get<Artist[]>(`${this.urlApiArtist}/studio/${idStudio}`);
   }
 
 }
