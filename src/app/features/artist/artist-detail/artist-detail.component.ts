@@ -1,4 +1,5 @@
-import { Component, inject, OnInit, Signal } from '@angular/core';
+import { Component, inject, Input, input, OnInit, Signal } from '@angular/core';
+import { Artist } from '../../../shared/models/Artist';
 
 
 @Component({
@@ -7,5 +8,7 @@ import { Component, inject, OnInit, Signal } from '@angular/core';
   styleUrls: ['./artist-detail.component.css']
 })
 export class ArtistDetailComponent{
+
+  public artist = input.required<Artist>({alias: 'artist'})
 
 }
