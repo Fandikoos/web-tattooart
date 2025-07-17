@@ -5,15 +5,18 @@ import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { StudioService } from '../../../shared/services/studio.service';
 import { DatePipe } from '@angular/common';
-import { LocalTimePipe } from '../../../shared/pipes/local-time.pipe';
+import { LocalTimePipe } from '../../../shared/pipes/local-time/local-time.pipe';
 import { ArtistDetailComponent } from "../../artist/artist-detail/artist-detail.component";
+import { PhonePipe } from '../../../shared/pipes/phone-number/phone.pipe';
+import { SwiperGalleryComponent } from "../../../shared/swiper-gallery/swiper-gallery.component";
 
 @Component({
   selector: 'app-studio-detail',
   templateUrl: './studio-detail.component.html',
   imports: [
     LocalTimePipe,
-    ArtistDetailComponent
+    ArtistDetailComponent,
+    SwiperGalleryComponent
 ],
   styleUrls: ['./studio-detail.component.css']
 })
@@ -38,7 +41,7 @@ export class StudioDetailComponent implements OnInit {
   constructor() {
     effect(() => {
       console.log(this.artistsByStudio());
-      console.log(typeof(this.studio()?.openSchedule));
+      console.log(this.studio());
     })
    }
 
