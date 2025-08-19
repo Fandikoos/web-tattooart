@@ -1,17 +1,21 @@
-.parent {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 8px;
+.parent-container {
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.studio {
-    grid-row: span 3 / span 3;
+.artist-grid {
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
-.artist-parent {
-    display: grid;
+@media (min-width: 640px) {
+  .artist-grid {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(1, 1fr);
-    gap: 8px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .artist-grid {
+    grid-template-columns: 1fr;
+  }
 }

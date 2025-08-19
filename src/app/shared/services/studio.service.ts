@@ -16,5 +16,9 @@ export class StudioService {
     return this.httpClient.get<Studio[]>(this.urlApiStudio);
   }
 
+  getById(idStudio: number): Observable<Studio>{
+    return this.httpClient.get<Studio>(`${this.urlApiStudio}/${idStudio}`)
+  }
+
 
 }

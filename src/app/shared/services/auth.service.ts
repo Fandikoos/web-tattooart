@@ -1,0 +1,25 @@
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { LoginUserDto } from '../models/LoginUserDto';
+import { Observable } from 'rxjs';
+import { JwtTokenDto } from '../models/JwtTokenDto';
+import { environment } from '../../../environments/environment.development';
+import { CreateUserDto } from '../models/CreateUserDto';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+
+  private httpClient = inject(HttpClient);
+  private urlAuth = environment.apiUrlAuth;
+
+  public login(dto: LoginUserDto): Observable<JwtTokenDto> {
+    return this.httpClient.post<JwtTokenDto>(`${this.urlAuth}/login`, dto);
+  }
+
+    public register(dto: CreateUserDto): Observable<any> {
+    return this.httpClient.post<any>(`${this.urlAuth}/createUser`, dto);
+  }
+
+}

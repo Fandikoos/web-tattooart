@@ -8,6 +8,9 @@ export interface Studio {
     latitud:  number;
     longitud: number;
     rating:   number;
+    openSchedule: string;
+    closeSchedule: string;
+    description: string;
     logo:     string;
     artists:  Artist[];
     images:   StudioImage[];
