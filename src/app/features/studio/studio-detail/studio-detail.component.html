@@ -88,6 +88,9 @@
           Conoce a nuestros profesionales
         </p>
       </div>
+      @if (isAdmin) {
+        <a>Añadir artista</a>
+      }
 
       <!-- Listado de artistas -->
       @if (artistsByStudio()?.length) {
@@ -103,6 +106,11 @@
           <p class="text-gray-600 dark:text-gray-400">No hay artistas disponibles actualmente</p>
         </div>
       }
+
+      <!--
+      <div>
+        <app-google-maps [map_center]="centerMap()" [zoom]="6" />
+      </div>-->
     </div>
   </div>
 </div>

@@ -6,7 +6,6 @@
 .artist-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.25rem;
 }
 
 @media (min-width: 640px) {
