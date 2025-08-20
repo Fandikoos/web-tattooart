@@ -11,7 +11,9 @@
         <a routerLink="/login" class="text-gray-400 hover:text-white">Inciar sesión</a>
       } @else {
         <button class="text-gray-400 hover:text-white" (click)="logout()">Cerrar sesión</button>
-        <a routerLink="/user/profile" class="text-gray-400 hover:text-white">User profile</a>
+        @if (!tokenService.isAdmin()) {
+          <a routerLink="/user/profile" class="text-gray-400 hover:text-white">User profile</a>
+        }
       }
       @if (tokenService.isAdmin()) {
         <button class="text-gray-400 hover:text-white" (click)="logout()">Admin profile</button>
