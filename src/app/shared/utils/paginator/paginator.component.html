@@ -1,0 +1,12 @@
+@if (objectsToPaginate().length > 0) {
+    <mat-paginator
+    [length]="objectsToPaginate().length"
+    [pageSize]="currentPageSize()" 
+    [pageIndex]="currentPageIndex()"
+    [pageSizeOptions]="pageSizeOptions()"
+    [showFirstLastButtons]="showFirstLastButtons()"
+    [hidePageSize]="hidePageSize()" 
+    (page)="onPageChange($event)"
+    class="custom-paginator" />
+}
+
