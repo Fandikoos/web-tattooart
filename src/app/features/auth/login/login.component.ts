@@ -34,7 +34,9 @@ export class LoginComponent implements OnInit {
     const dto = new LoginUserDto(this.username, this.password);
     this.authService.login(dto).subscribe(
       data => {
-        this.tokenService.setToken(data.token)
+        this.tokenService.setToken(data.token);
+        console.log(data.userProfile);
+        this.tokenService.setUserProfile(data.userProfile);
         this.router.navigate(['/']);
       }
     )

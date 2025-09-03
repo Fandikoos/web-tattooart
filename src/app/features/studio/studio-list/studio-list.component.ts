@@ -17,7 +17,7 @@ import { PaginatorComponent } from '../../../shared/utils/paginator/paginator.co
     RouterLink,
     FilterComponent,
     MatPaginatorModule,
-    PaginatorComponent
+    PaginatorComponent,
 ]
 })
 export class StudioListComponent implements OnInit {

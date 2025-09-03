@@ -1,16 +1,15 @@
-<header class="bg-gray-800 dark:bg-gray-900 mb-4">
+<header class="bg-gray-800 dark:bg-gray-900">
   <div class="mx-auto w-full max-w-screen-xl p-4 flex justify-between items-center">
     <a href="" class="flex items-center">
       <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="Eventify Logo" />
       <span class="self-center text-2xl font-semibold text-white whitespace-nowrap">Tattooart Connect</span>
     </a>
     <nav class="space-x-8 text-sm font-medium">
-      <a href="#" class="text-gray-400 hover:text-white">Home</a>
-      <a href="#" class="text-gray-400 hover:text-white">Estudios</a>
+      <a href="#" class="text-gray-400 hover:text-white">Studios</a>
       @if (!tokenService.isLogged()) {
-        <a routerLink="/login" class="text-gray-400 hover:text-white">Inciar sesión</a>
+        <a routerLink="/login" class="text-gray-400 hover:text-white">Log in</a>
       } @else {
-        <button class="text-gray-400 hover:text-white" (click)="logout()">Cerrar sesión</button>
+        <button class="text-gray-400 hover:text-white" (click)="logout()">Log out</button>
         @if (!tokenService.isAdmin()) {
           <a routerLink="/user/profile" class="text-gray-400 hover:text-white">User profile</a>
         }

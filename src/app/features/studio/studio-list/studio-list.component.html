@@ -11,6 +11,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           @for (studio of paginatedStudios(); track $index) {
             <article class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl transform origin-center">
+              
+              <div>
+                <i class="fa-regular fa-star"></i>
+              </div>
+
               <!-- Imagen del estudio -->
               <div class="h-48 overflow-hidden">
                 <img [src]="studio.logo" alt="{{studio.name}}"class="w-full h-full object-cover">

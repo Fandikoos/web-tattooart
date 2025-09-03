@@ -1,7 +1,9 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
+import { ProfileUserDto } from '../models/ProfileUserDto';
 
 const TOKEN_KEY = 'authToken';
+const USER_KEY = 'userProfile';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +42,20 @@ export class TokenService {
     }
   }
 
+  public setUserProfile(userProfile: ProfileUserDto): void{
+    if(isPlatformBrowser(this.platformId) && userProfile){
+      localStorage.setItem(USER_KEY, JSON.stringify(userProfile));
+    }
+  }
+
+  public getProfileUserDto(): ProfileUserDto | null{
+    if(isPlatformBrowser(this.platformId)){
+      const data = localStorage.getItem(USER_KEY);
+      return data ? JSON.parse(data) : null;
+    }
+    return null;
+  }
+
   public getToken(): string | null {
     if (isPlatformBrowser(this.platformId)) {
       return localStorage.getItem(TOKEN_KEY);
@@ -50,6 +66,7 @@ export class TokenService {
   public logout(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(USER_KEY);
       this._isLogged.set(false);
       this._isAdmin.set(false);
     }
