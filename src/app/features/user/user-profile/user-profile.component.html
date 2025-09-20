@@ -11,9 +11,9 @@
 
       <!-- Info -->
       <div class="flex-1 text-center md:text-left">
-        <h1 class="text-3xl font-bold">{{userProfile?.username}}</h1>
-        <p class="text-gray-300">{{userProfile?.description}}</p>
-        <p class="text-gray-400 mt-2">{{userProfile?.phone}}</p>
+        <h1 class="text-3xl font-bold">{{userProfile()?.username}}</h1>
+        <p class="text-gray-300">{{userProfile()?.description}}</p>
+        <p class="text-gray-400 mt-2">{{userProfile()?.phone}}</p>
 
         <!-- Botones -->
         <div class="mt-4 flex justify-center md:justify-start gap-3">
@@ -35,19 +35,19 @@
     <!-- Estudios favoritos -->
     <h2 class="text-2xl font-semibold mb-6">My favourite studios</h2>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    @for (favStudio of favStudiosByUser(); track $index) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-      <!-- Card de estudio -->
-      <div
-        class="bg-white/10 rounded-xl p-4 border border-white/20 shadow hover:scale-105 hover:shadow-lg transition cursor-pointer">
-        <img src="https://images.unsplash.com/photo-1618354691459-4b2d70d820ee?auto=format&fit=crop&w=800&q=60"
-          alt="Tattoo Studio"
-          class="w-full h-40 object-cover rounded-lg mb-3">
-        <h3 class="text-lg font-bold">Ink Masters Studio</h3>
-        <p class="text-gray-400 text-sm">Barcelona, España</p>
-        <span class="inline-block mt-2 text-sm px-3 py-1 rounded-full bg-blue-600/70">⭐ Favorito</span>
+        <div
+          class="bg-white/10 rounded-xl p-4 border border-white/20 shadow hover:scale-105 hover:shadow-lg transition cursor-pointer">
+          <img [src]="favStudio.logo" [alt]="favStudio.name" class="w-full h-40 object-cover rounded-lg mb-3">
+          <h3 class="text-lg font-bold">{{favStudio.name}}</h3>
+          <p class="text-gray-400 text-sm">{{favStudio.address}}</p>
+          <span class="inline-block mt-2 text-sm px-3 py-1 rounded-full bg-blue-600/70">⭐ Favorito</span>
+        </div>
+
       </div>
+    }
 
-    </div>
   </div>
 </section>

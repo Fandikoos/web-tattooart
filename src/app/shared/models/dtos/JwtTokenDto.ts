@@ -1,4 +1,4 @@
-import { ProfileUserDto } from "./ProfileUserDto";
+import { ProfileUserDto } from "../interfaces/ProfileUserDto";
 
 export class JwtTokenDto {
     token: string;

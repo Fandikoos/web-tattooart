@@ -6,20 +6,20 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
-import { StudioInterceptor } from './shared/interceptors/studio.interceptor';
+import { studioInterceptorFn } from './shared/interceptors/studio.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes, withViewTransitions()), 
-    { provide: HTTP_INTERCEPTORS, useClass: StudioInterceptor, multi: true },
+    provideRouter(routes, withViewTransitions()),
     provideClientHydration(withEventReplay()), 
-    provideHttpClient(withFetch(), withInterceptors([])),  
     provideAnimationsAsync(),
-    providePrimeNG({
-      theme: {
-        preset:Aura
-      }
-    }),
+    providePrimeNG({ theme: { preset: Aura } }),
+
+    // Aquí se registran los interceptores
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([studioInterceptorFn]) // 👈 función interceptor
+    ),
   ]
 };

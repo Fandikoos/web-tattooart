@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
-import { ProfileUserDto } from '../models/ProfileUserDto';
+import { ProfileUserDto } from '../models/interfaces/ProfileUserDto';
 
 const TOKEN_KEY = 'authToken';
 const USER_KEY = 'userProfile';

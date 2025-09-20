@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, input, OnInit } from '@angular/core';
 import { register } from 'swiper/element/bundle';
-import { StudioImage } from '../models/StudioImage';
+import { StudioImage } from '../models/interfaces/StudioImage';
 register();
 
 @Component({

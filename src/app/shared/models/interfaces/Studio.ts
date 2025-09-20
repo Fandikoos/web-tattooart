@@ -14,4 +14,6 @@ export interface Studio {
     logo:     string;
     artists:  Artist[];
     images:   StudioImage[];
+    isFav?: boolean;
+    idFavourite?: any;
 }

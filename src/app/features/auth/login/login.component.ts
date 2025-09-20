@@ -3,10 +3,10 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../shared/services/auth.service';
 import { TokenService } from '../../../shared/services/token.service';
 import { Router, RouterLink } from '@angular/router';
-import { LoginUserDto } from '../../../shared/models/LoginUserDto';
+import { LoginUserDto } from '../../../shared/models/dtos/LoginUserDto';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Observable, Subscribable } from 'rxjs';
-import { JwtTokenDto } from '../../../shared/models/JwtTokenDto';
+import { JwtTokenDto } from '../../../shared/models/dtos/JwtTokenDto';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
     this.authService.login(dto).subscribe(
       data => {
         this.tokenService.setToken(data.token);
-        console.log(data.userProfile);
         this.tokenService.setUserProfile(data.userProfile);
         this.router.navigate(['/']);
       }
