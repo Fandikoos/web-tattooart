@@ -2,18 +2,26 @@
   <div class="flex flex-col lg:flex-row gap-8">
     <!-- Sección de Filtros (más estrecha) -->
     <aside class="lg:w-1/4 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md h-fit sticky top-4">
-      <app-filter/>
+      <app-filter (filterChangeNameValue)="onFilterChange($event)"/>
     </aside>
 
     <!-- Sección principal de estudios (más ancha) -->
     <main class="lg:w-3/4">
       @if (studios() != null) {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          @for (studio of studios(); track $index) {
+          @for (studio of paginatedStudios(); track $index) {
             <article class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl transform origin-center">
+
               <!-- Imagen del estudio -->
-              <div class="h-48 overflow-hidden">
-                <img [src]="studio.logo" alt="{{studio.name}}"class="w-full h-full object-cover">
+              <div class="h-48 overflow-hidden relative">
+                <img [src]="studio.logo" alt="{{studio.name}}" class="w-full h-full object-cover">
+                 @if (token) {
+                  <button class="cursor-pointer absolute top-2 right-2" (click)="toggleFav(studio)">
+                    <i class="fa-star p-1 rounded-full"
+                      [ngClass]="studio.isFav ? 'fa-solid text-yellow-400' : 'fa-regular text-white bg-black bg-opacity-50'">
+                    </i>
+                  </button>
+                  }
               </div>
 
               <!-- Contenido -->
@@ -42,6 +50,18 @@
             </article>
           }
         </div>
+
+          <app-paginator 
+          [objectsToPaginate]="studios() || []" 
+          [initialPageSize]="9" 
+          [initialPageIndex]="0"
+          [pageSizeOptions]="[9, 18]" 
+          [showFirstLastButtons]="false"
+          [hidePageSize]="false"
+          (paginatedObjects)="onPaginatedStudiosChange($event)"
+          />
+
+      
       } @else {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
          <p>Loading data...</p>

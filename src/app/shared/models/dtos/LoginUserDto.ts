@@ -1,3 +1,5 @@
+import { ProfileUserDto } from "../interfaces/ProfileUserDto";
+
 export class LoginUserDto {
     username: string;
     password: string;

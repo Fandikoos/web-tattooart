@@ -3,23 +3,29 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TokenService } from '../services/token.service';
 
+// Nombre estándar de la cabecera donde viaja el token
 const AUTH = 'Authorization';
+// Prefijo que espera Spring Security -> "Bearer <token>"
 const BEARER = 'Bearer ';
 
-@Injectable()
-export class StudioInterceptor implements HttpInterceptor{
+// Interceptor funcional (Angular 16+)
+// Se ejecuta ANTES de que la request salga de Angular
+export const studioInterceptorFn: HttpInterceptorFn = (req, next) => {
+  // Inyectamos el servicio de tokens (forma moderna sin constructor)
+  const tokenService = inject(TokenService);
+  const token = tokenService.getToken();
 
-  private tokenService = inject(TokenService);
-
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-  
-    let intReq = request;
-    const token = this.tokenService.getToken();
-    console.log("Interceptor: Token actual", this.tokenService.getToken()); // ← Verifica esto
-    if(token != null){
-      intReq = request.clone({headers: request.headers.set(AUTH, BEARER + token)});
-    }
-    return next.handle(intReq);
+  // Si tenemos un token en localStorage
+  if (token) {
+    // Clonamos la request original y le añadimos la cabecera Authorization
+    const cloned = req.clone({
+      setHeaders: { [AUTH]: BEARER + token }
+    });
+    // Enviamos la request clonada (ya con el token)
+    return next(cloned);
   }
-  
-}
+
+  // Si no hay token, enviamos la request tal cual
+  return next(req);
+};
+

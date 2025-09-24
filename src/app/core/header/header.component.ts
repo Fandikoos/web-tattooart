@@ -17,7 +17,7 @@ export class HeaderComponent {
 
   logout() {
     this.tokenService.logout();
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 
 }

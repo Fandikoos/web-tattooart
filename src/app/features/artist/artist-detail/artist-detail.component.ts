@@ -1,8 +1,8 @@
 import { Component, inject, Input, input, OnInit, Signal } from '@angular/core';
-import { Artist } from '../../../shared/models/Artist';
+import { Artist } from '../../../shared/models/interfaces/Artist';
 import { PhonePipe } from '../../../shared/pipes/phone-number/phone.pipe';
 import { GoogleMapsComponent } from "../../../shared/google-maps/google-maps.component";
-import { Studio } from '../../../shared/models/Studio';
+import { Studio } from '../../../shared/models/interfaces/Studio';
 
 
 @Component({

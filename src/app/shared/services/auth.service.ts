@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { LoginUserDto } from '../models/LoginUserDto';
+import { LoginUserDto } from '../models/dtos/LoginUserDto';
 import { Observable } from 'rxjs';
-import { JwtTokenDto } from '../models/JwtTokenDto';
+import { JwtTokenDto } from '../models/dtos/JwtTokenDto';
 import { environment } from '../../../environments/environment.development';
-import { CreateUserDto } from '../models/CreateUserDto';
+import { CreateUserDto } from '../models/dtos/CreateUserDto';
 
 @Injectable({
   providedIn: 'root'
