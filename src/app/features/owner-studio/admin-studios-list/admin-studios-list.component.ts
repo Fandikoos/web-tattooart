@@ -1,0 +1,56 @@
+import { Component, inject, OnInit, signal, Signal } from '@angular/core';
+import { StudioService } from '../../../shared/services/studio.service';
+import { TokenService } from '../../../shared/services/token.service';
+import { Studio } from '../../../shared/models/interfaces/Studio';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { AdminStudioEditComponent } from "./admin-studio-edit/admin-studio-edit.component";
+
+@Component({
+  selector: 'app-admin-studios-list',
+  templateUrl: './admin-studios-list.component.html',
+  styleUrls: ['./admin-studios-list.component.css'],
+  imports: [AdminStudioEditComponent]
+})
+export class AdminStudiosListComponent implements OnInit {
+
+  private studioService = inject(StudioService);
+  private tokenService = inject(TokenService);
+  studios = signal<Studio[]>([]);
+  editStudio: boolean = false;
+  studioToEdit = signal<Studio | undefined>(undefined);
+
+  constructor() { }
+
+  ngOnInit() {
+    const idAdmin = this.tokenService.getProfileUserDto()?.idUser;
+    if (idAdmin != null) {
+      this.studioService.findByIdAdmin(idAdmin).subscribe(data => {
+        this.studios.set(data);
+      })
+    }
+  }
+
+  deleteStudio(idStudio: number) {
+    if (!confirm("Are you sure than you want to delete this studio?")) return;
+
+    this.studioService.delete(idStudio).subscribe(() => {
+      this.studios.update(studios => 
+        studios.filter(studio => studio.idStudio !== idStudio)
+      );
+    });
+  }
+
+  onEditFinished(updatedStudio: Studio) {
+    this.studios.update(studios => 
+      studios.map(s => s.idStudio === updatedStudio.idStudio ? updatedStudio : s)
+    );
+    this.editStudio = false;
+    this.studioToEdit.set(undefined);
+  }
+
+  prepareEditStudio(studio: Studio) {
+    this.studioToEdit.set(studio);
+    this.editStudio = true;
+  }
+
+}
