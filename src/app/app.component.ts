@@ -10,7 +10,7 @@ import { HeaderComponent } from "./core/header/header.component";
     RouterOutlet,
     MatSlideToggleModule,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

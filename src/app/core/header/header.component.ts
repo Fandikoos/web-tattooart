@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { TokenService } from '../../shared/services/token.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
+  imports:[
+    RouterLink
+  ],
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
-  constructor() { }
+  public tokenService = inject(TokenService);
+  private router = inject(Router)
 
-  ngOnInit() {
+  logout() {
+    this.tokenService.logout();
+    this.router.navigate(['/login']);
   }
 
 }

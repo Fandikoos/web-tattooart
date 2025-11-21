@@ -1,0 +1,11 @@
+.custom-paginator {
+  background: transparent;
+  color: white;
+  margin-top: 2rem;
+  padding: 1rem 0;
+}
+
+/* Manera de sobrescribir estilos de Angular Material sin afectar a otros componentes  */
+::ng-deep .mat-mdc-paginator-container {
+    justify-content: center !important;
+}

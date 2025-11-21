@@ -1,0 +1,60 @@
+<section class="min-h-screen flex flex-col items-center py-10 px-4">
+
+  <!-- Card de perfil -->
+  <div class="w-full max-w-4xl bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg p-8 border border-white/20">
+
+    <!-- Sección superior con datos del usuario -->
+    <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+      <!-- Imagen -->
+      <img src="https://i.pravatar.cc/150?img=32" alt="Foto de perfil"
+        class="w-32 h-32 rounded-full border-4 border-white/30 shadow-lg">
+
+      <!-- Info -->
+      <div class="flex-1 text-center md:text-left">
+        <h1 class="text-3xl font-bold">{{userProfile()?.username}}</h1>
+        <p class="text-gray-300">{{userProfile()?.description}}</p>
+        <p class="text-gray-400 mt-2">{{userProfile()?.phone}}</p>
+
+        <!-- Botones -->
+        <div class="mt-4 flex justify-center md:justify-start gap-3">
+          <button
+            class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 transition font-medium shadow-md">
+            Editar perfil
+          </button>
+          <button
+            class="px-5 py-2 rounded-xl bg-gray-600 hover:bg-gray-700 transition font-medium shadow-md">
+            Ajustes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <hr class="my-8 border-gray-700">
+
+    <!-- Estudios favoritos -->
+    <h2 class="text-2xl font-semibold mb-6">My favourite studios</h2>
+
+    @for (favStudio of favStudiosByUser(); track $index) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+          class="bg-white/10 rounded-xl p-4 border border-white/20 shadow hover:scale-105 hover:shadow-lg transition">
+          <img [src]="favStudio.logo" [alt]="favStudio.name" class="w-full h-40 object-cover rounded-lg mb-3">
+          <h3 class="text-lg font-bold">{{favStudio.name}}</h3>
+          <p class="text-gray-400 text-sm">{{favStudio.address}}</p>
+          <div class="flex justify-between">
+            <button (click)="discardFav(favStudio)" class="inline-block mt-2 text-sm px-3 py-1 rounded-full bg-blue-600/70 cursor-pointer">⭐ Favorito</button>
+            <a [routerLink]="['/studio', favStudio.idStudio]" class="mt-2 px-3 py-1 inline-flex items-center text-sm justify-center rounded-full bg-blue-950 cursor-pointer">
+              See studio
+              <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    }
+
+  </div>
+</section>

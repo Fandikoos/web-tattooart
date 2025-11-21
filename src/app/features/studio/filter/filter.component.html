@@ -1,0 +1,24 @@
+<h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Filters</h2>
+
+<form [formGroup]="filterForm" (ngSubmit)="onSubmit()" class="space-y-4">
+
+  <div>
+    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Studio name</label>
+    <input id="name" type="text" formControlName="name" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white">
+  </div>
+  
+  <!-- Otros filtros 
+  <div>
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Style</label>
+    <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white">
+      <option>Todos</option>
+      <option>Blackwork</option>
+      <option>Acuarela</option>
+      <option>Realista</option>
+    </select>
+  </div>-->
+  
+  <button type="submit" [disabled]="filterForm.invalid" class="w-full py-2 px-4 rounded-md transition duration-200text-white bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed">
+    Apply
+  </button>
+</form>

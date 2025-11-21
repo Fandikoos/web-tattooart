@@ -1,0 +1,21 @@
+.parent-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.artist-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .artist-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .artist-grid {
+    grid-template-columns: 1fr;
+  }
+}

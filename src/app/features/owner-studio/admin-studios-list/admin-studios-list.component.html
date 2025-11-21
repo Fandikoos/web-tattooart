@@ -1,0 +1,63 @@
+<div class="p-6">
+  <!-- Encabezado -->
+  <div class="flex items-center mb-6">
+    <h1 class="text-2xl font-semibold text-white tracking-wide">My Studios</h1>
+    <button
+      type="button"
+      class="text-white bg-gradient-to-r ml-4 from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center shadow-md hover:shadow-lg transition-all"
+      (click)="prepareAddStudio()"
+    >
+      + Add Studio
+    </button>
+  </div>
+
+  @if (!editStudio) {
+    <!-- Contenedor del listado -->
+    <div
+      class="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl shadow-lg border border-white/10"
+    >
+      <!-- Header del listado -->
+      <div
+        class="grid grid-cols-6 gap-4 border-b border-white/10 pb-3 mb-4 text-gray-300 text-sm uppercase tracking-wide"
+      >
+        <span>Name</span>
+        <span>Location</span>
+        <span>Artists</span>
+        <span>Logo</span>
+        <span>Close Schedule</span>
+        <span>Actions</span>
+      </div>
+
+      <!-- Fila de ejemplo -->
+      @for (studio of studios(); track $index) {
+        <div
+          class="grid grid-cols-6 gap-4 py-3 px-2 rounded-lg hover:bg-white/5 transition"
+        >
+          <span class="font-medium">{{ studio.name }}</span>
+          <span>{{ studio.address }}</span>
+          <span>{{ studio.artists.length }}</span>
+          <img srcset="{{ studio.logo }}" class="w-30 h-15" />
+          <span>{{ studio.closeSchedule }}</span>
+
+          <div class="flex gap-2">
+            <button
+              (click)="prepareEditStudio(studio)"
+              class="text-blue-400 hover:text-blue-300 font-medium text-sm transition"
+            >
+              Edit
+            </button>
+            <button
+              (click)="deleteStudio(studio.idStudio!)"
+              class="text-red-400 hover:text-red-300 font-medium text-sm transition"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <app-admin-studio-data-edit [studio]="studioToEdit()" (studioToEmit)="onEditFinished($event)"/>
+  }
+
+</div>
