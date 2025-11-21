@@ -3,13 +3,13 @@ import { StudioService } from '../../../shared/services/studio.service';
 import { TokenService } from '../../../shared/services/token.service';
 import { Studio } from '../../../shared/models/interfaces/Studio';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { AdminStudioEditComponent } from "./admin-studio-edit/admin-studio-edit.component";
+import { AdminStudioDataEditComponent } from "./admin-studio-edit/admin-studio-data-edit.component";
 
 @Component({
   selector: 'app-admin-studios-list',
   templateUrl: './admin-studios-list.component.html',
   styleUrls: ['./admin-studios-list.component.css'],
-  imports: [AdminStudioEditComponent]
+  imports: [AdminStudioDataEditComponent]
 })
 export class AdminStudiosListComponent implements OnInit {
 
@@ -34,22 +34,34 @@ export class AdminStudiosListComponent implements OnInit {
     if (!confirm("Are you sure than you want to delete this studio?")) return;
 
     this.studioService.delete(idStudio).subscribe(() => {
-      this.studios.update(studios => 
+      this.studios.update(studios =>
         studios.filter(studio => studio.idStudio !== idStudio)
       );
     });
   }
 
-  onEditFinished(updatedStudio: Studio) {
-    this.studios.update(studios => 
-      studios.map(s => s.idStudio === updatedStudio.idStudio ? updatedStudio : s)
-    );
+  onEditFinished(studioToCreateOrEdit: Studio | undefined) {
+    if (studioToCreateOrEdit) {
+      this.studios.update(studios => {
+        const exists = studios.some(s => s.idStudio === studioToCreateOrEdit.idStudio);
+        if (exists) {
+          return studios.map(s => s.idStudio === studioToCreateOrEdit.idStudio ? studioToCreateOrEdit : s);
+        } else {
+          return [...studios, studioToCreateOrEdit];
+        }
+      });
+    }
     this.editStudio = false;
     this.studioToEdit.set(undefined);
   }
 
   prepareEditStudio(studio: Studio) {
     this.studioToEdit.set(studio);
+    this.editStudio = true;
+  }
+
+  prepareAddStudio() {
+    this.studioToEdit.set(undefined);
     this.editStudio = true;
   }
 

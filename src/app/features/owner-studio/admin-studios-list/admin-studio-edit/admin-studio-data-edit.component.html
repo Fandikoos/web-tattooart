@@ -11,13 +11,12 @@
     >
     <input
       id="name"
+      required="true"
       type="text"
       formControlName="name"
+      placeholder="Name"
       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
     />
-    @if (editStudioForm.get("name")?.invalid) {
-      <div class="text-red-500 text-sm mt-1">Name is required</div>
-    }
   </div>
 
   <div>
@@ -29,12 +28,11 @@
     <input
       id="address"
       type="text"
+      required="true"
       formControlName="address"
+      placeholder="Address"
       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
     />
-    @if (editStudioForm.get("address")?.invalid) {
-      <div class="text-red-500 text-sm mt-1">Address is required</div>
-    }
   </div>
 
   <div>
@@ -121,12 +119,29 @@
   -->
 
   <div class="md:col-span-2 flex justify-end">
+    @if (studio() != null || studio() != undefined) {
+      <button
+        type="submit"
+        [disabled]="editStudioForm.invalid"
+        class="py-2 px-6 rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed shadow-sm"
+      >
+        Apply
+      </button>
+    } @else {
+      <button
+        type="submit"
+        [disabled]="editStudioForm.invalid"
+        class="py-2 px-6 rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed shadow-sm"
+      >
+        Create
+      </button>
+    }
     <button
-      type="submit"
-      [disabled]="editStudioForm.invalid"
-      class="py-2 px-6 rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed shadow-sm"
+      type="button"
+      class="py-2 px-6 ml-5 rounded-lg text-white bg-gray-600 hover:bg-gray-700 transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed shadow-sm"
+      (click)="close()"
     >
-      Apply
+      Cancel
     </button>
   </div>
 </form>

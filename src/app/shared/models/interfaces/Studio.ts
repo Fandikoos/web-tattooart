@@ -2,7 +2,7 @@ import { Artist } from "./Artist";
 import { StudioImage } from "./StudioImage";
 
 export interface Studio {
-    idStudio: number;
+    idStudio?: number;
     name:     string;
     address:  string;
     latitud:  number;
@@ -12,6 +12,7 @@ export interface Studio {
     closeSchedule: string;
     description: string;
     logo:     string;
+    idUser: number;
     artists:  Artist[];
     images:   StudioImage[];
     isFav?: boolean;

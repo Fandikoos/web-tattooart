@@ -47,4 +47,8 @@ export class StudioService {
     return this.httpClient.delete<void>(`${this.urlApiStudio}/${idStudio}`);
   }
 
+  create(studio: Studio): Observable<Studio> {
+    return this.httpClient.post<Studio>(this.urlApiStudio, studio);
+  }
+
 }

@@ -5,6 +5,7 @@
     <button
       type="button"
       class="text-white bg-gradient-to-r ml-4 from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center shadow-md hover:shadow-lg transition-all"
+      (click)="prepareAddStudio()"
     >
       + Add Studio
     </button>
@@ -46,7 +47,7 @@
               Edit
             </button>
             <button
-              (click)="deleteStudio(studio.idStudio)"
+              (click)="deleteStudio(studio.idStudio!)"
               class="text-red-400 hover:text-red-300 font-medium text-sm transition"
             >
               Delete
@@ -56,7 +57,7 @@
       }
     </div>
   } @else {
-    <app-admin-studio-edit [studio]="studioToEdit()" (updatedStudio)="onEditFinished($event)"/>
+    <app-admin-studio-data-edit [studio]="studioToEdit()" (studioToEmit)="onEditFinished($event)"/>
   }
 
 </div>
