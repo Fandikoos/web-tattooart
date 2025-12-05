@@ -1,4 +1,5 @@
 import { Artist } from "./Artist";
+import { Image } from "./Image";
 import { StudioImage } from "./StudioImage";
 
 export interface Studio {
@@ -14,7 +15,7 @@ export interface Studio {
     logo:     string;
     idUser: number;
     artists:  Artist[];
-    images:   StudioImage[];
+    imagesGallery?:   Image[];
     isFav?: boolean;
     idFavourite?: any;
 }
