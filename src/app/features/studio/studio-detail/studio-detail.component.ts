@@ -1,16 +1,15 @@
-import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { ArtistService } from '../../../shared/services/artist.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import { StudioService } from '../../../shared/services/studio.service';
-import { DatePipe } from '@angular/common';
 import { LocalTimePipe } from '../../../shared/pipes/local-time/local-time.pipe';
 import { ArtistDetailComponent } from "../../artist/artist-detail/artist-detail.component";
-import { PhonePipe } from '../../../shared/pipes/phone-number/phone.pipe';
-import { SwiperGalleryComponent } from "../../../shared/swiper-gallery/swiper-gallery.component";
-import { GoogleMapsComponent } from "../../../shared/google-maps/google-maps.component";
 import { TokenService } from '../../../shared/services/token.service';
+import { MatDialog } from "@angular/material/dialog";
+import { MatDialogGalleryComponent } from '../../../shared/components/gallery/mat-dialog-gallery/mat-dialog-gallery.component';
+import { MatDialogReviewsComponent } from '../../../shared/components/review/mat-dialog-reviews/mat-dialog-reviews.component';
 
 @Component({
   selector: 'app-studio-detail',
@@ -18,7 +17,7 @@ import { TokenService } from '../../../shared/services/token.service';
   imports: [
     LocalTimePipe,
     ArtistDetailComponent,
-],
+  ],
   styleUrls: ['./studio-detail.component.css']
 })
 export class StudioDetailComponent implements OnInit {
@@ -26,32 +25,72 @@ export class StudioDetailComponent implements OnInit {
   private artistService = inject(ArtistService);
   private studioService = inject(StudioService);
   public tokenService = inject(TokenService);
-
   private route = inject(ActivatedRoute);
-  public centerMap = signal<google.maps.LatLngLiteral>({lat: 0, lng: 0});
+
   isAdmin: boolean = false;
+
+  constructor(private matDialog: MatDialog) { }
+
+  idStudio = toSignal(
+    this.route.params.pipe(map(params => Number(params["id"])))
+  );
 
   ngOnInit() {
     this.isAdmin = this.tokenService.isAdmin();
   }
-  
-  public artistsByStudio = toSignal(
+
+  artistsByStudio = toSignal(
     this.route.params.pipe(
-      switchMap( ({id}) => this.artistService.getArtistByIdStudio(id))
+      switchMap(({ id }) => this.artistService.getArtistByIdStudio(id))
     )
   );
 
-  public studio = toSignal(
+  studio = toSignal(
     this.route.params.pipe(
-      switchMap( ({id}) => this.studioService.getById(id))
+      switchMap(({ id }) => this.studioService.getById(id))
     )
   );
 
-  constructor() {
-    if(this.studio()?.latitud != undefined && this.studio()?.longitud != undefined){
-      this.centerMap().lat != this.studio()?.latitud;
-      this.centerMap().lng != this.studio()?.longitud;
-    }
-   }
+  centerMap = computed(() => {
+    const st = this.studio();
+    if (!st) return { lat: 0, lng: 0 };
+
+    return {
+      lat: st.latitud ?? 0,
+      lng: st.longitud ?? 0
+    };
+  });
+
+  images = computed(() => {
+    const studio = this.studio();
+    console.log(studio?.imagesGallery);
+    return studio?.imagesGallery;
+  })
+
+
+  openGallery(): void {
+    this.matDialog.open(MatDialogGalleryComponent, {
+      data: this.images(),
+      width: '90vw',
+      maxWidth: '1100px',
+      height: '80vh',
+      maxHeight: '900px',
+      panelClass: 'gallery-modal',
+    });
+  }
+
+  openReviews() {
+    this.matDialog.open(MatDialogReviewsComponent, {
+      data: {
+        reviews: this.studio()?.reviews,
+        idStudio: this.idStudio(),
+      },
+      width: '90vw',
+      maxWidth: '1100px',
+      height: '80vh',
+      maxHeight: '900px',
+      panelClass: 'gallery-modal',
+    });
+  }
 
 }

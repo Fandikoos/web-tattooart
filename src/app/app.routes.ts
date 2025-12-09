@@ -10,6 +10,10 @@ export const routes: Routes = [
         loadChildren: () => import('./routes/user.routes'),
     },
     {
+        path: 'admin',
+        loadChildren: () => import('./routes/owner-studio.routes')
+    },
+    {
         path: '**',
         redirectTo: '',
         pathMatch: 'full',

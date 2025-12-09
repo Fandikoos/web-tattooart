@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { SwiperGalleryComponent } from './swiper-gallery.component';
+import { OwnerStudioComponent } from './admin-studio.component';
 
-describe('SwiperGalleryComponent', () => {
-  let component: SwiperGalleryComponent;
-  let fixture: ComponentFixture<SwiperGalleryComponent>;
+describe('OwnerStudioComponent', () => {
+  let component: OwnerStudioComponent;
+  let fixture: ComponentFixture<OwnerStudioComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SwiperGalleryComponent ]
+      declarations: [OwnerStudioComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SwiperGalleryComponent);
+    fixture = TestBed.createComponent(OwnerStudioComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

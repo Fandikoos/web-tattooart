@@ -36,7 +36,12 @@ export class LoginComponent implements OnInit {
       data => {
         this.tokenService.setToken(data.token);
         this.tokenService.setUserProfile(data.userProfile);
-        this.router.navigate(['/']);
+        if(!this.tokenService.isAdmin){
+          this.router.navigate(['/']);
+        } else {
+          this.router.navigate(['/admin/dashboard']);
+        }
+
       }
     )
   }

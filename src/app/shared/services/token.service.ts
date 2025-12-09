@@ -27,7 +27,7 @@ export class TokenService {
       const token = this.getToken();
       this._isLogged.set(token !== null);
 
-      if(token){
+      if (token) {
         this.checkAdminRole(token);
       }
     }
@@ -42,14 +42,23 @@ export class TokenService {
     }
   }
 
-  public setUserProfile(userProfile: ProfileUserDto): void{
-    if(isPlatformBrowser(this.platformId) && userProfile){
+  getUserId(): number {
+    const userProfile = this.getProfileUserDto();
+    if (userProfile != null) {
+      return userProfile.idUser;
+    } else {
+      return -1;
+    }
+  }
+
+  public setUserProfile(userProfile: ProfileUserDto): void {
+    if (isPlatformBrowser(this.platformId) && userProfile) {
       localStorage.setItem(USER_KEY, JSON.stringify(userProfile));
     }
   }
 
-  public getProfileUserDto(): ProfileUserDto | null{
-    if(isPlatformBrowser(this.platformId)){
+  public getProfileUserDto(): ProfileUserDto | null {
+    if (isPlatformBrowser(this.platformId)) {
       const data = localStorage.getItem(USER_KEY);
       return data ? JSON.parse(data) : null;
     }

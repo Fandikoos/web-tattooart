@@ -1,8 +1,9 @@
 import { Artist } from "./Artist";
-import { StudioImage } from "./StudioImage";
+import { Image } from "./Image";
+import { Review } from "./Review";
 
 export interface Studio {
-    idStudio: number;
+    idStudio?: number;
     name:     string;
     address:  string;
     latitud:  number;
@@ -12,8 +13,10 @@ export interface Studio {
     closeSchedule: string;
     description: string;
     logo:     string;
+    idUser: number;
     artists:  Artist[];
-    images:   StudioImage[];
+    imagesGallery?:   Image[];
+    reviews?: Review[];
     isFav?: boolean;
     idFavourite?: any;
 }

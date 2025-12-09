@@ -1,0 +1,35 @@
+@use '@angular/material' as mat;
+@use "tailwindcss";
+
+body {
+    background: linear-gradient(135deg, #2e2e38, #434353, #5a5a68);
+    font-family: 'Arial', sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+  }
+  
+h1, h2, p {
+    color: white;
+}
+
+/* MODAL GALERIA DE IMAGENES DE LOS ESTUDIOS */
+/* ✅ Se aplica solo en el modal de la galería, es una forma para sobrescribir los estilos de angular material */
+.gallery-modal {
+  @include mat.dialog-overrides((
+    container-color: rgba(15, 23, 42, 0.55),
+    container-elevation-shadow: none
+  ));
+}
+
+.gallery-modal .mat-mdc-dialog-surface {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.gallery-backdrop {
+  background: rgba(0, 0, 0, 0.35) !important;
+}
+

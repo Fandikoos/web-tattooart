@@ -35,4 +35,20 @@ export class StudioService {
     });
   }
 
+  findByIdAdmin(idAdmin: number): Observable<Studio[]>{
+    return this.httpClient.get<Studio[]>(`${this.urlApiStudio}/studios/${idAdmin}`);
+  }
+
+  update(idStudio: number, studio: Studio): Observable<void>{
+    return this.httpClient.put<void>(`${this.urlApiStudio}/update/${idStudio}`, studio);
+  }
+
+  delete(idStudio: number): Observable<void>{
+    return this.httpClient.delete<void>(`${this.urlApiStudio}/${idStudio}`);
+  }
+
+  create(studio: Studio): Observable<Studio> {
+    return this.httpClient.post<Studio>(this.urlApiStudio, studio);
+  }
+
 }

@@ -79,7 +79,7 @@ export class StudioListComponent implements OnInit {
     const idUser = this.tokenService.getProfileUserDto()!.idUser;
     const idStudio = studio.idStudio;
     if(!studio.isFav){
-      const favDto = new FavouriteDto(idUser, idStudio);
+      const favDto = new FavouriteDto(idUser, idStudio!);
       this.favouriteService.addFav(favDto).subscribe((saved: Favourite) => {
         studio.isFav = true;
         studio.idFavourite = saved.idFavourite;
@@ -95,7 +95,7 @@ export class StudioListComponent implements OnInit {
   private favStudiosByUser(studios: Studio[], favs: Favourite[]): Studio[]{
     const favMap = new Map(favs.map(f => [f.idStudio, f]));
     return studios.map(studio => {
-      const fav = favMap.get(studio.idStudio);
+      const fav = favMap.get(studio.idStudio!);
       return {
         // Esto copia todas las propiedades que ya tiene el objeto Studio
         ...studio,
