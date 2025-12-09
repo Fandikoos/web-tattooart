@@ -1,6 +1,6 @@
 import { Artist } from "./Artist";
 import { Image } from "./Image";
-import { StudioImage } from "./StudioImage";
+import { Review } from "./Review";
 
 export interface Studio {
     idStudio?: number;
@@ -16,6 +16,7 @@ export interface Studio {
     idUser: number;
     artists:  Artist[];
     imagesGallery?:   Image[];
+    reviews?: Review[];
     isFav?: boolean;
     idFavourite?: any;
 }

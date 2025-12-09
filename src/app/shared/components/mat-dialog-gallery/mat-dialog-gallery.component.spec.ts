@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MatDialogComponent } from './mat-dialog.component';
+import { MatDialogComponent } from './mat-dialog-gallery.component';
 
 describe('MatDialogComponent', () => {
   let component: MatDialogComponent;
@@ -10,7 +10,7 @@ describe('MatDialogComponent', () => {
     await TestBed.configureTestingModule({
       imports: [MatDialogComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(MatDialogComponent);
     component = fixture.componentInstance;

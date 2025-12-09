@@ -5,17 +5,15 @@ import { register } from 'swiper/element/bundle';
 
 register();
 @Component({
-  selector: 'app-mat-dialog',
-  templateUrl: './mat-dialog.component.html',
-  styleUrl: './mat-dialog.component.css',
+  selector: 'app-mat-dialog-gallery',
+  templateUrl: './mat-dialog-gallery.component.html',
+  styleUrl: './mat-dialog-gallery.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class MatDialogComponent {
+export class MatDialogGalleryComponent {
 
-  constructor(public matDialogRef: MatDialogRef<MatDialogComponent>,
+  constructor(public matDialogRef: MatDialogRef<MatDialogGalleryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Image[]
-  ) {
-    console.log(data);
-  }
+  ) {  }
 
 }

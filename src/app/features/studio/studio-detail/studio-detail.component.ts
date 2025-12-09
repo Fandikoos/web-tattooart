@@ -4,16 +4,12 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs';
 import { StudioService } from '../../../shared/services/studio.service';
-import { DatePipe } from '@angular/common';
 import { LocalTimePipe } from '../../../shared/pipes/local-time/local-time.pipe';
 import { ArtistDetailComponent } from "../../artist/artist-detail/artist-detail.component";
-import { PhonePipe } from '../../../shared/pipes/phone-number/phone.pipe';
-import { SwiperGalleryComponent } from "../../../shared/swiper-gallery/swiper-gallery.component";
-import { GoogleMapsComponent } from "../../../shared/google-maps/google-maps.component";
 import { TokenService } from '../../../shared/services/token.service';
-import { MatButton } from "@angular/material/button";
 import { MatDialog } from "@angular/material/dialog";
-import { MatDialogComponent } from '../../../shared/components/mat-dialog/mat-dialog.component';
+import { MatDialogGalleryComponent } from '../../../shared/components/mat-dialog-gallery/mat-dialog-gallery.component';
+import { MatDialogReviewsComponent } from '../../../shared/components/mat-dialog-reviews/mat-dialog-reviews.component';
 
 @Component({
   selector: 'app-studio-detail',
@@ -73,8 +69,19 @@ export class StudioDetailComponent implements OnInit {
 
 
   openGallery(): void {
-    this.matDialog.open(MatDialogComponent, {
+    this.matDialog.open(MatDialogGalleryComponent, {
       data: this.images(),
+      width: '90vw',
+      maxWidth: '1100px',
+      height: '80vh',
+      maxHeight: '900px',
+      panelClass: 'gallery-modal',
+    });
+  }
+
+  openReviews() {
+    this.matDialog.open(MatDialogReviewsComponent, {
+      data: this.studio()?.reviews,
       width: '90vw',
       maxWidth: '1100px',
       height: '80vh',
