@@ -1,9 +1,9 @@
 export interface Review {
-    idReview: number;
+    idReview?: number;
     review: string;
     rating: number;
-    createdAt: Date;
+    createdAt?: Date;
     idUser: number;
-    idStudio: number;
-    username: string;
+    idTattooStudio: number;
+    username?: string;
 }

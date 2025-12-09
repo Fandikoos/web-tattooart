@@ -1,8 +1,8 @@
 <h1 class="text-2xl md:text-3xl font-semibold text-center mb-6 mt-6">
   Reviews
 </h1>
-@if (data && data.length > 0) {
-  @for (review of data; track review.idReview) {
+@if (data && data.reviews.length > 0) {
+  @for (review of data.reviews; track review.idReview) {
     <div class="border-1 border-white/20 rounded-full p-4 m-7 bg-cyan-900">
       <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
         <img
@@ -47,8 +47,10 @@
 
 @if (isLogged) {
     <div class="flex justify-center">
-        <button class="w-42 h-12 inline-flex items-center justify-center text-heading bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-full text-sm px-4 py-2.5 text-center leading-5">
-            Leave a review
+        <button class="cursor-pointer w-42 h-12 inline-flex items-center justify-center text-heading bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-full text-sm px-4 py-2.5 text-center leading-5"
+        (click)="createReviewDialog()"
+        >  
+          Leave a review
             <i class="fa-regular fa-thumbs-up fa-lg ml-5"></i> 
         </button>
     </div>

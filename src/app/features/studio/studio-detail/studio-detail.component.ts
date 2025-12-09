@@ -8,8 +8,8 @@ import { LocalTimePipe } from '../../../shared/pipes/local-time/local-time.pipe'
 import { ArtistDetailComponent } from "../../artist/artist-detail/artist-detail.component";
 import { TokenService } from '../../../shared/services/token.service';
 import { MatDialog } from "@angular/material/dialog";
-import { MatDialogGalleryComponent } from '../../../shared/components/mat-dialog-gallery/mat-dialog-gallery.component';
-import { MatDialogReviewsComponent } from '../../../shared/components/mat-dialog-reviews/mat-dialog-reviews.component';
+import { MatDialogGalleryComponent } from '../../../shared/components/gallery/mat-dialog-gallery/mat-dialog-gallery.component';
+import { MatDialogReviewsComponent } from '../../../shared/components/review/mat-dialog-reviews/mat-dialog-reviews.component';
 
 @Component({
   selector: 'app-studio-detail',
@@ -81,7 +81,10 @@ export class StudioDetailComponent implements OnInit {
 
   openReviews() {
     this.matDialog.open(MatDialogReviewsComponent, {
-      data: this.studio()?.reviews,
+      data: {
+        reviews: this.studio()?.reviews,
+        idStudio: this.idStudio(),
+      },
       width: '90vw',
       maxWidth: '1100px',
       height: '80vh',
