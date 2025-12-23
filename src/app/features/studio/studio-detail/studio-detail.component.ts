@@ -10,6 +10,7 @@ import { TokenService } from '../../../shared/services/token.service';
 import { MatDialog } from "@angular/material/dialog";
 import { MatDialogGalleryComponent } from '../../../shared/components/gallery/mat-dialog-gallery/mat-dialog-gallery.component';
 import { MatDialogReviewsComponent } from '../../../shared/components/review/mat-dialog-reviews/mat-dialog-reviews.component';
+import { Studio } from '../../../shared/models/interfaces/Studio';
 
 @Component({
   selector: 'app-studio-detail',
@@ -26,6 +27,8 @@ export class StudioDetailComponent implements OnInit {
   private studioService = inject(StudioService);
   public tokenService = inject(TokenService);
   private route = inject(ActivatedRoute);
+  private _studio = signal<Studio | null>(null);
+  studio = this._studio.asReadonly();
 
   isAdmin: boolean = false;
 
@@ -37,17 +40,18 @@ export class StudioDetailComponent implements OnInit {
 
   ngOnInit() {
     this.isAdmin = this.tokenService.isAdmin();
+    this.route.params
+      .pipe(
+        switchMap(({ id }) => this.studioService.getById(id))
+      )
+      .subscribe(studio => {
+        this._studio.set(studio);
+      });
   }
 
   artistsByStudio = toSignal(
     this.route.params.pipe(
       switchMap(({ id }) => this.artistService.getArtistByIdStudio(id))
-    )
-  );
-
-  studio = toSignal(
-    this.route.params.pipe(
-      switchMap(({ id }) => this.studioService.getById(id))
     )
   );
 
@@ -90,7 +94,20 @@ export class StudioDetailComponent implements OnInit {
       height: '80vh',
       maxHeight: '900px',
       panelClass: 'gallery-modal',
+    }).afterClosed().subscribe(() => {
+      this.reloadStudio();
     });
+  }
+
+  private reloadStudio() {
+    const currentStudio = this._studio();
+    if (currentStudio === null) return;
+
+    this.studioService
+      .getById(currentStudio.idStudio!)
+      .subscribe(studio => {
+        this._studio.set(studio);
+      });
   }
 
 }

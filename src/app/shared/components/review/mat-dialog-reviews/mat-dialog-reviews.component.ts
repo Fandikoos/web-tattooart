@@ -17,6 +17,8 @@ export class MatDialogReviewsComponent {
   private tokenService = inject(TokenService);
   private reviewService = inject(ReviewService);
   isLogged = this.tokenService.isLogged();
+  idUser = this.tokenService.getProfileUserDto()?.idUser;
+  isEdit: boolean = false;
 
   constructor(private matDialog: MatDialog, public matDialogRef: MatDialogRef<MatDialogReviewsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { reviews: Review[], idStudio: number }
@@ -38,10 +40,33 @@ export class MatDialogReviewsComponent {
     };
   }
 
-  createReviewDialog() {
+  deleteReview(idReview: number | undefined) {
+    if (!idReview) {
+      return;
+    }
+    this.reviewService.deleteReview(idReview).subscribe({
+      next: () => {
+        alert('Review deleted successfully');
+        this.data.reviews = this.data.reviews.filter(review => review.idReview !== idReview);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+  editReview(review: Review | undefined) {
+    if(!review) return;
+    this.isEdit = true;
+    this.createEditReviewDialog(review, this.data.idStudio)
+  }
+
+  createEditReviewDialog(review : Review | null, idStudio: number) {
     this.matDialog.open(MatDialogCreateReviewComponent, {
       data: {
-        idStudio: this.data.idStudio
+        idStudio: idStudio,
+        review: review,
+        isEdit: this.isEdit,
       },
       width: '55vw',
       maxWidth: '650px',

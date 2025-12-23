@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@use "tailwindcss";
+@import "./styles.tailwind.css";
 
 body {
     background: linear-gradient(135deg, #2e2e38, #434353, #5a5a68);
