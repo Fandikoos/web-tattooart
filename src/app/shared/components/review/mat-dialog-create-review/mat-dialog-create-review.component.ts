@@ -17,8 +17,17 @@ export class MatDialogCreateReviewComponent {
   private tokenService = inject(TokenService);
 
   constructor(public matDialogRef: MatDialogRef<MatDialogCreateReviewComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { idStudio: number }
+    @Inject(MAT_DIALOG_DATA) public data: { idStudio: number, review: Review | null, isEdit: boolean }
   ) { }
+
+  ngOnInit(): void {
+    if (this.data.review) {
+      this.editReviewForm.patchValue({
+        review: this.data.review.review,
+        rating: this.data.review.rating
+      });
+    }
+  }
 
   editReviewForm = new FormGroup({
     review: new FormControl<string>(''),
@@ -34,16 +43,29 @@ export class MatDialogCreateReviewComponent {
       idTattooStudio: this.data.idStudio
     };
 
-    this.reviewService.createReview(review).subscribe({
-      next: () => {
-        alert('Review created successfully');
-        this.matDialogRef.close(true);
-      },
-      error: (err) => {
-        alert('Review not created');
-        console.log(err);
-      }
-    })
-
+    if (!this.data.isEdit) {
+      this.reviewService.createReview(review).subscribe({
+        next: () => {
+          alert('Review created successfully');
+          this.matDialogRef.close(true);
+        },
+        error: (err) => {
+          alert('Review not created');
+          console.log(err);
+        }
+      })
+    } else {
+      if (!this.data.review) return;
+      this.reviewService.updateReview(this.data.review.idReview!, review).subscribe({
+        next: () => {
+          alert('Review updated successfully');
+          this.matDialogRef.close(true);
+        },
+        error: (err) => {
+          alert('Review not updated');
+          console.log(err);
+        }
+      })
+    }
   }
 }

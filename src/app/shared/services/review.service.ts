@@ -21,4 +21,12 @@ export class ReviewService {
   createReview(review: Review): Observable<Review> {
     return this.httpClient.post<Review>(`${this.urlApiReview}`, review);
   }
+
+  deleteReview(idReview: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.urlApiReview}/${idReview}`);
+  }
+
+  updateReview(idReview: number, review: Review): Observable<void> {
+    return this.httpClient.put<void>(`${this.urlApiReview}/${idReview}`, review);
+  }
 }
