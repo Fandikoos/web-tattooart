@@ -16,4 +16,8 @@ export class ArtistService {
       return this.httpClient.get<Artist[]>(`${this.urlApiArtist}/studio/${idStudio}`);
   }
 
+  getArtistByIdUser(idUser: number): Observable<Artist[]> {
+    return this.httpClient.get<Artist[]>(`${this.urlApiArtist}/artists/${idUser}`);
+  }
+
 }
