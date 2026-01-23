@@ -1,6 +1,7 @@
 <div class="p-6">
   <div class="flex items-center mb-6">
     <h1 class="text-2xl font-semibold text-white tracking-wide">My Artists</h1>
+    @if (!editArtist) {
     <button
       type="button"
       class="text-white bg-gradient-to-r ml-4 from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center shadow-md hover:shadow-lg transition-all"
@@ -8,6 +9,7 @@
     >
       + Add Artist
     </button>
+    }
   </div>
 
   @if (!editArtist) {
@@ -58,7 +60,7 @@
       }
     </div>
   } @else {
-    <!-- <app-admin-studio-data-edit [studio]="studioToEdit()" (studioToEmit)="onEditFinished($event)"/> -->
+    <app-admin-artist-edit [artist]="artistToEdit()" [idTattooStudio]="idTattooStudio" (artistToEmit)="onEditFinished($event)"/>
   }
 
 </div>
