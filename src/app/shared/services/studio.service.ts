@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { Observable, of } from 'rxjs';
 import { Studio } from '../models/interfaces/Studio';
+import { PageResponse } from '../models/interfaces/PageResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -12,38 +13,44 @@ export class StudioService {
   private httpClient = inject(HttpClient);
   private urlApiStudio = environment.apiUrlStudio;
 
-  getAll(): Observable<Studio[]>{
-    return this.httpClient.get<Studio[]>(this.urlApiStudio);
+  getAll(page: number, size: number, sort: string = 'idStudio'): Observable<PageResponse<Studio>> {
+    return this.httpClient.get<PageResponse<Studio>>(this.urlApiStudio, {
+      params: {
+        page,
+        size,
+        sort
+      }
+    });
   }
 
-  getById(idStudio: number): Observable<Studio>{
+  getById(idStudio: number): Observable<Studio> {
     return this.httpClient.get<Studio>(`${this.urlApiStudio}/${idStudio}`)
   }
 
-  findByName(studioName: string): Observable<Studio[]>{
-    if(!studioName || studioName.trim().length < 2){
+  findByName(studioName: string): Observable<Studio[]> {
+    if (!studioName || studioName.trim().length < 2) {
       return of([]);
     }
     const params = new HttpParams().set('name', studioName.trim());
     return this.httpClient.get<Studio[]>(`${this.urlApiStudio}/search`, { params });
   }
 
-  findByIdsStudios(idsStudios: number[]): Observable<Studio[]>{
+  findByIdsStudios(idsStudios: number[]): Observable<Studio[]> {
     return this.httpClient.get<Studio[]>(`${this.urlApiStudio}/byIdsStudios?`, {
       // Unir por comas los diferentes idsStudios sino peta la petición
       params: { idsStudios: idsStudios.join(',') }
     });
   }
 
-  findByIdAdmin(idAdmin: number): Observable<Studio[]>{
+  findByIdAdmin(idAdmin: number): Observable<Studio[]> {
     return this.httpClient.get<Studio[]>(`${this.urlApiStudio}/studios/${idAdmin}`);
   }
 
-  update(idStudio: number, studio: Studio): Observable<void>{
+  update(idStudio: number, studio: Studio): Observable<void> {
     return this.httpClient.put<void>(`${this.urlApiStudio}/update/${idStudio}`, studio);
   }
 
-  delete(idStudio: number): Observable<void>{
+  delete(idStudio: number): Observable<void> {
     return this.httpClient.delete<void>(`${this.urlApiStudio}/${idStudio}`);
   }
 

@@ -1,6 +1,5 @@
-import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { StudioService } from '../../../shared/services/studio.service';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { FilterComponent } from "../filter/filter.component";
@@ -22,9 +21,9 @@ import { Favourite } from '../../../shared/models/interfaces/Favourite';
     RouterLink,
     FilterComponent,
     MatPaginatorModule,
-    PaginatorComponent,
+    // PaginatorComponent,
     NgClass
-]
+  ]
 })
 export class StudioListComponent implements OnInit {
 
@@ -32,53 +31,61 @@ export class StudioListComponent implements OnInit {
   private tokenService = inject(TokenService);
   private favouriteService = inject(FavStudioService);
 
-  private studios$ = this.studioService.getAll();
-  public studios = toSignal(this.studios$);
-  token = this.tokenService.isLogged();
-  
-  // Señal para recibir los estudios paginados
-  paginatedStudios = signal<Studio[]>([]);
+  page = 0;
+  size = 10;
+  total = 0;
 
-  onPaginatedStudiosChange(studios: Studio[]){
+  token = this.tokenService.isLogged();
+
+  // Señal para recibir los estudios paginados
+  studios = signal<Studio[]>([]);
+
+  onPaginatedStudiosChange(studios: Studio[]) {
     // Se reciben los estudios ya paginados
-    this.paginatedStudios.set(studios);
+    this.studios.set(studios);
   }
 
-  onFilterChange(name: string){
-    if(name.length > 0){
+  onFilterChange(name: string) {
+    if (name.length > 0) {
       this.studioService.findByName(name).subscribe((studios: Studio[]) => {
-        if(this.token){
+        if (this.token) {
           const idUser = this.tokenService.getProfileUserDto()!.idUser;
           this.favouriteService.getFavByIdUser(idUser).subscribe((favs: Favourite[]) => {
-            this.paginatedStudios.set(this.favStudiosByUser(studios, favs));
+            this.studios.set(this.favStudiosByUser(studios, favs));
           });
         } else {
-          this.paginatedStudios.set(studios)
+          this.studios.set(studios)
         }
       })
     } else {
+      this.page = 0;
       this.ngOnInit();
     }
   }
 
   ngOnInit() {
-    if(this.token){
+    if (this.token) {
       const idUser = this.tokenService.getProfileUserDto()!.idUser;
-      this.studioService.getAll().subscribe((studios: Studio[]) => {
-        
+      this.studioService.getAll(this.page, this.size).subscribe((pageResponse) => {
+        this.total = pageResponse.totalElements;
+        const studios = pageResponse.content;
+
         this.favouriteService.getFavByIdUser(idUser).subscribe((favs: Favourite[]) => {
-          this.paginatedStudios.set(this.favStudiosByUser(studios, favs));
+          this.studios.set(this.favStudiosByUser(studios, favs));
         });
       });
     } else {
-      this.studioService.getAll().subscribe((studios: Studio[]) => this.paginatedStudios.set(studios));
+      this.studioService.getAll(this.page, this.size).subscribe((pageResponse) => {
+        this.total = pageResponse.totalElements;
+        this.studios.set(pageResponse.content);
+      });
     }
   }
 
   toggleFav(studio: Studio) {
     const idUser = this.tokenService.getProfileUserDto()!.idUser;
     const idStudio = studio.idStudio;
-    if(!studio.isFav){
+    if (!studio.isFav) {
       const favDto = new FavouriteDto(idUser, idStudio!);
       this.favouriteService.addFav(favDto).subscribe((saved: Favourite) => {
         studio.isFav = true;
@@ -92,7 +99,7 @@ export class StudioListComponent implements OnInit {
     }
   }
 
-  private favStudiosByUser(studios: Studio[], favs: Favourite[]): Studio[]{
+  private favStudiosByUser(studios: Studio[], favs: Favourite[]): Studio[] {
     const favMap = new Map(favs.map(f => [f.idStudio, f]));
     return studios.map(studio => {
       const fav = favMap.get(studio.idStudio!);
