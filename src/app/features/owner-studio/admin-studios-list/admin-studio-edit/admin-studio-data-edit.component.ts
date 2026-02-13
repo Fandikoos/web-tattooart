@@ -3,6 +3,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Studio } from '../../../../shared/models/interfaces/Studio';
 import { StudioService } from '../../../../shared/services/studio.service';
 import { TokenService } from '../../../../shared/services/token.service';
+import { ImageService } from '../../../../shared/services/image.service';
+import { Image } from '../../../../shared/models/interfaces/Image';
 
 @Component({
   selector: 'app-admin-studio-data-edit',
@@ -17,9 +19,11 @@ export class AdminStudioDataEditComponent implements OnInit {
   studio = input<Studio>();
   studioToEmit = output<Studio | undefined>();
   private studioService = inject(StudioService);
+  private imageService = inject(ImageService);
   private tokenService = inject(TokenService);
   private idStudio!: number;
   private isEditingStudio: boolean = false;
+  selectedFile: File | null = null;
 
   editStudioForm = new FormGroup({
     name: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
@@ -38,6 +42,13 @@ export class AdminStudioDataEditComponent implements OnInit {
         this.idStudio = studio.idStudio!;
       }
     })
+  }
+
+  onFileSelected($event: Event) {
+    const file = ($event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      this.selectedFile = file;
+    }
   }
 
   ngOnInit() {
@@ -82,17 +93,39 @@ export class AdminStudioDataEditComponent implements OnInit {
       idUser: this.tokenService.getUserId(),
       logo: this.isEditingStudio ? this.studio()!.logo : '',
       artists: this.isEditingStudio ? this.studio()!.artists : [],
-      images: this.isEditingStudio ? this.studio()!.images : []
+      imagesGallery: this.isEditingStudio ? this.studio()!.imagesGallery : [],
     };
 
     if (this.isEditingStudio) {
       this.studioService.update(this.idStudio, studio).subscribe({
-        next: () => this.studioToEmit.emit(studio),
+        next: () => {
+          if (this.selectedFile) {
+            this.imageService.upload(this.idStudio, this.selectedFile).subscribe({
+              next: (image: Image) => {
+                this.studio()?.imagesGallery?.push(image);
+                this.studioToEmit.emit(studio);
+              }
+            })
+          } else {
+            this.studioToEmit.emit(studio);
+          }
+        },
         error: () => console.log("Error modificando")
       });
     } else {
       this.studioService.create(studio).subscribe({
-        next: (createdStudio) => this.studioToEmit.emit(createdStudio),
+        next: () => {
+          if (this.selectedFile) {
+            this.imageService.upload(this.idStudio, this.selectedFile).subscribe({
+              next: (image: Image) => {
+                this.studio()?.imagesGallery?.push(image);
+                this.studioToEmit.emit(studio);
+              }
+            })
+          } else {
+            this.studioToEmit.emit(studio);
+          }
+        }, 
         error: () => console.log("Error creando")
       })
     }

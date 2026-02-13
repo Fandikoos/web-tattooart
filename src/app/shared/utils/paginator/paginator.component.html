@@ -1,12 +1,8 @@
-@if (objectsToPaginate().length > 0) {
-    <mat-paginator
-    [length]="objectsToPaginate().length"
-    [pageSize]="currentPageSize()" 
-    [pageIndex]="currentPageIndex()"
-    [pageSizeOptions]="pageSizeOptions()"
-    [showFirstLastButtons]="showFirstLastButtons()"
-    [hidePageSize]="hidePageSize()" 
+<mat-paginator
+    [length]="length()"
+    [pageSize]="pageSize()"
+    [pageSizeOptions]="[5, 10, 20]"
     (page)="onPageChange($event)"
-    class="custom-paginator" />
-}
+    aria-label="Select page"
+/>
 

@@ -7,6 +7,7 @@ import { LoginUserDto } from '../../../shared/models/dtos/LoginUserDto';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Observable, Subscribable } from 'rxjs';
 import { JwtTokenDto } from '../../../shared/models/dtos/JwtTokenDto';
+import { Exception } from '../../../core/exceptions/exceptions';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ import { JwtTokenDto } from '../../../shared/models/dtos/JwtTokenDto';
   ],
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends Exception implements OnInit{
 
   username!: string;
   password!: string;
@@ -25,15 +26,17 @@ export class LoginComponent implements OnInit {
   private tokenService = inject(TokenService);
   private router = inject(Router);
 
-  constructor() { }
+  constructor() {
+    super();
+  }
 
   ngOnInit() {
   }
 
   onLogin() {
     const dto = new LoginUserDto(this.username, this.password);
-    this.authService.login(dto).subscribe(
-      data => {
+    this.authService.login(dto).subscribe({
+      next: (data: JwtTokenDto) => {
         this.tokenService.setToken(data.token);
         this.tokenService.setUserProfile(data.userProfile);
         if(!this.tokenService.isAdmin){
@@ -41,9 +44,11 @@ export class LoginComponent implements OnInit {
         } else {
           this.router.navigate(['/admin/dashboard']);
         }
-
+      },
+      error: (err) => {
+        this.handleBackendErrors(err);
       }
-    )
+    })
   }
 
 }

@@ -1,0 +1,75 @@
+<h1 class="text-2xl md:text-3xl font-semibold text-center mb-6 mt-6">
+  Reviews
+</h1>
+@if (data && data.reviews.length > 0) {
+  @for (review of data.reviews; track review.idReview) {
+    <div class="border-1 border-white/20 rounded-full p-4 m-7 bg-cyan-900">
+      <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+        <img
+          src="https://i.pravatar.cc/150?img=32"
+          alt="Foto de perfil"
+          class="w-16 h-16 rounded-full border-4 border-white/30 shadow-lg"
+        />
+
+        <div class="flex-1 relative">
+          <div class="absolute right-0 top-1/2 -translate-y-1/2 flex gap-2">
+            @if (review.idUser === idUser) {
+              <button
+                class="text-sm px-3 py-1 rounded-md bg-white/10 hover:bg-white/20"
+                (click)="editReview(review)"
+              >
+                <i class="fa-regular fa-pen-to-square fa-xs"></i>
+              </button>
+            }
+            <button
+              class="text-sm px-3 py-1 rounded-md bg-red-500/20 hover:bg-red-500/40 text-red-300"
+              (click)="deleteReview(review.idReview)"
+            >
+              <i class="fa-solid fa-trash-can fa-xs"></i>
+            </button>
+          </div>
+
+          <div class="flex items-center gap-4 pr-24">
+            <div class="flex items-center gap-4">
+              <h1 class="text-xl font-bold">{{ review.username }}</h1>
+
+              <div class="flex items-center">
+                @for (
+                  star of getStarsArray(review.rating).fullStars;
+                  track $index
+                ) {
+                  <i class="fa-solid fa-star fa-xs text-yellow-400"></i>
+                }
+                @if (getStarsArray(review.rating).halfStar.length > 0) {
+                  <i class="fa-solid fa-star-half fa-xs text-yellow-400"></i>
+                }
+                @for (
+                  star of getStarsArray(review.rating).emptyStars;
+                  track $index
+                ) {
+                  <i class="fa-regular fa-star fa-xs text-yellow-400"></i>
+                }
+              </div>
+            </div>
+          </div>
+
+          <p class="text-gray-400 mt-2">{{ review.review }}</p>
+        </div>
+      </div>
+    </div>
+  }
+} @else {
+  <p class="ml-5">Be the first to leave a review to this studio!</p>
+}
+
+@if (isLogged) {
+  <div class="flex justify-center">
+    <button
+      class="cursor-pointer w-42 h-12 inline-flex items-center justify-center text-heading bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-full text-sm px-4 py-2.5 text-center leading-5"
+      (click)="createEditReviewDialog(null, data.idStudio)"
+    >
+      Leave a review
+      <i class="fa-regular fa-thumbs-up fa-lg ml-5"></i>
+    </button>
+  </div>
+}

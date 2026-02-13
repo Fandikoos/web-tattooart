@@ -22,4 +22,7 @@ export class AuthService {
     return this.httpClient.post<any>(`${this.urlAuth}/createUser`, dto);
   }
 
+  public getUsernameByIdUser(idUser: number): Observable<string>{
+    return this.httpClient.get<string>(`${this.urlAuth}/${idUser}`);  
+ }
 }

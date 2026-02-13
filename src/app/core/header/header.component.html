@@ -1,7 +1,7 @@
 <header class="bg-gray-800 dark:bg-gray-900">
   <div class="mx-auto w-full max-w-screen-xl p-4 flex justify-between items-center">
     <a class="flex items-center">
-      <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="Eventify Logo" />
+      <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="Tattooart Connect Logo" />
       <span class="self-center text-2xl font-semibold text-white whitespace-nowrap">Tattooart Connect</span>
     </a>
     <nav class="space-x-8 text-sm font-medium">
@@ -9,12 +9,13 @@
         <a href="#" class="text-gray-400 hover:text-white">Studios</a>
         <a routerLink="/login" class="text-gray-400 hover:text-white">Log in</a>
       } @else {
-        @if (!tokenService.isAdmin()) {
-          <a href="#" class="text-gray-400 hover:text-white">Studios</a>
-          <a routerLink="/user/profile" class="text-gray-400 hover:text-white">User profile</a>
-        }
-        <button routerLink="/admin/dashboard" class="text-gray-400 hover:text-white">Studio zone</button>
-        <button class="text-gray-400 hover:text-white" (click)="logout()">Log out</button>
+          @if (!tokenService.isAdmin()) {
+            <a href="#" class="text-gray-400 hover:text-white">Studios</a>
+            <a routerLink="/user/profile" class="text-gray-400 hover:text-white">User profile</a>
+          } @else {
+            <button routerLink="/admin/dashboard" class="text-gray-400 hover:text-white">Studio zone</button>
+          }
+          <button class="text-gray-400 hover:text-white" (click)="logout()">Log out</button>
       }
     </nav>
   </div>

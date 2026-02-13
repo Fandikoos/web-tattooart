@@ -1,0 +1,48 @@
+<h1 class="text-2xl md:text-3xl font-semibold text-center mb-6 mt-6">
+  Add a review
+</h1>
+
+<form
+  [formGroup]="editReviewForm"
+  (ngSubmit)="onSubmit()"
+  class="p-6 flex flex-col space-y-6 text-white"
+>
+  <div class="flex flex-col">
+    <label for="rating" class="text-center text-lg font-semibold">
+      Rating
+    </label>
+    <input
+      id="rating"
+      class="w-full accent-yellow-400 mt-2"
+      type="range"
+      min="1"
+      max="5"
+      step="1"
+      formControlName="rating"
+    />
+    <span class="text-center text-sm opacity-80 mt-1"
+      >Rate: {{ editReviewForm.get("rating")?.value }}</span
+    >
+  </div>
+
+  <div class="flex flex-col">
+    <label for="review" class="text-center text-lg font-semibold">
+      Review
+    </label>
+    <textarea
+      id="review"
+      rows="4"
+      class="w-full bg-white/10 text-white placeholder-gray-300 border border-white/20 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+      formControlName="review"
+    ></textarea>
+  </div>
+
+  <div class="flex justify-center">
+    <button
+      type="submit"
+      class="cursor-pointer px-6 py-2 rounded-lg bg-yellow-500 hover:bg-yellow-600 text-black font-semibold shadow-lg transition"
+    >
+      Send
+    </button>
+  </div>
+</form>
