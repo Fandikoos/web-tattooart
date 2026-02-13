@@ -65,9 +65,9 @@ export class StudioDetailComponent implements OnInit {
     };
   });
 
+  // Se actualiza cada vez que cambia el estudio, señales computadas optimizan el rendimiento al recalcular solo cuando es necesario
   images = computed(() => {
     const studio = this.studio();
-    console.log(studio?.imagesGallery);
     return studio?.imagesGallery;
   })
 
