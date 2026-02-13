@@ -9,7 +9,7 @@
     <main class="lg:w-3/4">
       @if (studios() != null) {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          @for (studio of paginatedStudios(); track $index) {
+          @for (studio of studios(); track $index) {
             <article class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl transform origin-center">
 
               <!-- Imagen del estudio -->
@@ -41,7 +41,7 @@
                 </div>
                 
                 <a [routerLink]="['/studio', studio.idStudio]" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition-colors duration-200 w-full">
-                  Ver estudio
+                  See studio
                   <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                   </svg>
@@ -51,16 +51,7 @@
           }
         </div>
 
-          <app-paginator 
-          [objectsToPaginate]="studios() || []" 
-          [initialPageSize]="9" 
-          [initialPageIndex]="0"
-          [pageSizeOptions]="[9, 18]" 
-          [showFirstLastButtons]="false"
-          [hidePageSize]="false"
-          (paginatedObjects)="onPaginatedStudiosChange($event)"
-          />
-
+        <app-paginator [pageSize]="5" [length]="getTotal()" (pageChange)="onPageChange($event)"/>
       
       } @else {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

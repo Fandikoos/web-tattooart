@@ -1,7 +1,5 @@
-import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal, computed } from '@angular/core';
 import { StudioService } from '../../../shared/services/studio.service';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { FilterComponent } from "../filter/filter.component";
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -12,6 +10,7 @@ import { FavStudioService } from '../../../shared/services/fav-studio.service';
 import { FavouriteDto } from '../../../shared/models/dtos/FavouriteDto';
 import { NgClass } from '@angular/common';
 import { Favourite } from '../../../shared/models/interfaces/Favourite';
+import { PaginatedComponent } from '../../../core/utils/PaginatedComponent';
 
 
 @Component({
@@ -24,61 +23,53 @@ import { Favourite } from '../../../shared/models/interfaces/Favourite';
     MatPaginatorModule,
     PaginatorComponent,
     NgClass
-]
+  ],
+  // No usamos ZoneJs en este componente para mejorar el rendimiento, por lo que Angular no detecta cambios automáticamente. Con esta estrategia, Angular solo se actualiza cuando las señales cambian, lo que optimiza el rendimiento
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StudioListComponent implements OnInit {
+export class StudioListComponent extends PaginatedComponent implements OnInit {
 
   private studioService = inject(StudioService);
   private tokenService = inject(TokenService);
   private favouriteService = inject(FavStudioService);
 
-  private studios$ = this.studioService.getAll();
-  public studios = toSignal(this.studios$);
   token = this.tokenService.isLogged();
-  
+
   // Señal para recibir los estudios paginados
-  paginatedStudios = signal<Studio[]>([]);
+  studios = signal<Studio[]>([]);
 
-  onPaginatedStudiosChange(studios: Studio[]){
-    // Se reciben los estudios ya paginados
-    this.paginatedStudios.set(studios);
-  }
-
-  onFilterChange(name: string){
-    if(name.length > 0){
+  onFilterChange(name: string) {
+    if (name.length > 0) {
       this.studioService.findByName(name).subscribe((studios: Studio[]) => {
-        if(this.token){
+        if (this.token) {
           const idUser = this.tokenService.getProfileUserDto()!.idUser;
           this.favouriteService.getFavByIdUser(idUser).subscribe((favs: Favourite[]) => {
-            this.paginatedStudios.set(this.favStudiosByUser(studios, favs));
+            this.studios.set(this.favStudiosByUser(studios, favs));
           });
         } else {
-          this.paginatedStudios.set(studios)
+          this.studios.set(studios)
         }
       })
     } else {
+      this.setPage(0);
       this.ngOnInit();
     }
   }
 
+  onPageChange($event: PageEvent) {
+    this.setPage($event.pageIndex);
+    this.setSize($event.pageSize);
+    this.loadStudios();
+  }
+
   ngOnInit() {
-    if(this.token){
-      const idUser = this.tokenService.getProfileUserDto()!.idUser;
-      this.studioService.getAll().subscribe((studios: Studio[]) => {
-        
-        this.favouriteService.getFavByIdUser(idUser).subscribe((favs: Favourite[]) => {
-          this.paginatedStudios.set(this.favStudiosByUser(studios, favs));
-        });
-      });
-    } else {
-      this.studioService.getAll().subscribe((studios: Studio[]) => this.paginatedStudios.set(studios));
-    }
+    this.loadStudios();
   }
 
   toggleFav(studio: Studio) {
     const idUser = this.tokenService.getProfileUserDto()!.idUser;
     const idStudio = studio.idStudio;
-    if(!studio.isFav){
+    if (!studio.isFav) {
       const favDto = new FavouriteDto(idUser, idStudio!);
       this.favouriteService.addFav(favDto).subscribe((saved: Favourite) => {
         studio.isFav = true;
@@ -92,7 +83,7 @@ export class StudioListComponent implements OnInit {
     }
   }
 
-  private favStudiosByUser(studios: Studio[], favs: Favourite[]): Studio[]{
+  private favStudiosByUser(studios: Studio[], favs: Favourite[]): Studio[] {
     const favMap = new Map(favs.map(f => [f.idStudio, f]));
     return studios.map(studio => {
       const fav = favMap.get(studio.idStudio!);
@@ -103,6 +94,23 @@ export class StudioListComponent implements OnInit {
         isFav: fav ? true : false,
         idFavourite: fav ? fav.idFavourite : null
       };
+    });
+  }
+
+  private loadStudios() {
+    this.studioService.getAll(this.getPage(), this.getSize()).subscribe((pageResponse) => {
+      this.setTotal(pageResponse.totalElements);
+      const studios = pageResponse.content;
+
+      if (this.token) {
+        const idUser = this.tokenService.getProfileUserDto()!.idUser;
+
+        this.favouriteService.getFavByIdUser(idUser).subscribe((favs) => {
+          this.studios.set(this.favStudiosByUser(studios, favs));
+        });
+      } else {
+        this.studios.set(studios);
+      }
     });
   }
 

@@ -1,11 +1,11 @@
 export interface Artist {
-    idArtist:       number;
+    idArtist?:       number;
     name:           string;
     surname:        string;
-    secondSurname:  string;
+    secondSurname?:  string;
     email:          string;
     dni:            string;
     phone:          number;
-    imageArtist:    string;
+    imageArtist?:    string;
     idTattooStudio: number;
 }
