@@ -6,12 +6,12 @@
     </a>
     <nav class="space-x-8 text-sm font-medium">
       @if (!tokenService.isLogged()) {
-        <a href="#" class="text-gray-400 hover:text-white">Studios</a>
-        <a routerLink="/login" class="text-gray-400 hover:text-white">Log in</a>
+        <a routerLink="#" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="text-gray-400 hover:text-white">Studios</a>
+        <a routerLink="/login" routerLinkActive="active" class="text-gray-400 hover:text-white">Log in</a>
       } @else {
           @if (!tokenService.isAdmin()) {
-            <a href="#" class="text-gray-400 hover:text-white">Studios</a>
-            <a routerLink="/user/profile" class="text-gray-400 hover:text-white">User profile</a>
+            <a routerLink="/studios" routerLinkActive="active" class="text-gray-400 hover:text-white">Studios</a>
+            <a routerLink="/user/profile" routerLinkActive="active" class="text-gray-400 hover:text-white">User profile</a>
           } @else {
             <button routerLink="/admin/dashboard" class="text-gray-400 hover:text-white">Studio zone</button>
           }

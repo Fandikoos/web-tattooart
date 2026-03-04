@@ -11,6 +11,9 @@ import { FavouriteDto } from '../../../shared/models/dtos/FavouriteDto';
 import { NgClass } from '@angular/common';
 import { Favourite } from '../../../shared/models/interfaces/Favourite';
 import { PaginatedComponent } from '../../../core/utils/PaginatedComponent';
+import { Filter } from '../../../shared/models/dtos/Filter';
+import { studioInterceptorFn } from '../../../shared/interceptors/studio.interceptor';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @Component({
@@ -32,38 +35,33 @@ export class StudioListComponent extends PaginatedComponent implements OnInit {
   private studioService = inject(StudioService);
   private tokenService = inject(TokenService);
   private favouriteService = inject(FavStudioService);
+  private nameFilterSignal = signal('');
+  private minRatingFilterSignal = signal(0);
+  private maxRatingFilterSignal = signal(5);
 
   token = this.tokenService.isLogged();
 
   // Señal para recibir los estudios paginados
   studios = signal<Studio[]>([]);
 
-  onFilterChange(name: string) {
-    if (name.length > 0) {
-      this.studioService.findByName(name).subscribe((studios: Studio[]) => {
-        if (this.token) {
-          const idUser = this.tokenService.getProfileUserDto()!.idUser;
-          this.favouriteService.getFavByIdUser(idUser).subscribe((favs: Favourite[]) => {
-            this.studios.set(this.favStudiosByUser(studios, favs));
-          });
-        } else {
-          this.studios.set(studios)
-        }
-      })
-    } else {
-      this.setPage(0);
-      this.ngOnInit();
-    }
+  onFilterChange(filter: Filter) {
+    // Desestructuración objetos ejemplo, sería mejor mandar un DTO con los filtros al backend y que este haga el filtrado, por ver un ejemplo lo hacemos así en el frontend
+    const { name, minRating, maxRating } = filter;
+    this.nameFilterSignal.set(name);
+    this.minRatingFilterSignal.set(minRating);
+    this.maxRatingFilterSignal.set(maxRating);
+    this.loadStudios(name, minRating, maxRating);
+
   }
 
   onPageChange($event: PageEvent) {
     this.setPage($event.pageIndex);
     this.setSize($event.pageSize);
-    this.loadStudios();
+    this.loadStudios(this.nameFilterSignal(), this.minRatingFilterSignal(), this.maxRatingFilterSignal());
   }
 
   ngOnInit() {
-    this.loadStudios();
+    this.loadStudios(this.nameFilterSignal(), this.minRatingFilterSignal(), this.maxRatingFilterSignal());
   }
 
   toggleFav(studio: Studio) {
@@ -97,8 +95,8 @@ export class StudioListComponent extends PaginatedComponent implements OnInit {
     });
   }
 
-  private loadStudios() {
-    this.studioService.getAll(this.getPage(), this.getSize()).subscribe((pageResponse) => {
+  private loadStudios(name: string, minRating: number, maxRating: number) {
+    this.studioService.findByFilters(this.getPage(), this.getSize(), 'idStudio', name, minRating, maxRating).subscribe((pageResponse) => {
       this.setTotal(pageResponse.totalElements);
       const studios = pageResponse.content;
 

@@ -27,12 +27,18 @@ export class StudioService {
     return this.httpClient.get<Studio>(`${this.urlApiStudio}/${idStudio}`)
   }
 
-  findByName(studioName: string): Observable<Studio[]> {
-    if (!studioName || studioName.trim().length < 2) {
-      return of([]);
-    }
-    const params = new HttpParams().set('name', studioName.trim());
-    return this.httpClient.get<Studio[]>(`${this.urlApiStudio}/search`, { params });
+  findByFilters(page: number, size: number, sort: string = 'idStudio', name: string, minRating: number, maxRating: number): Observable<PageResponse<Studio>> {
+    return this.httpClient.get<PageResponse<Studio>>(`${this.urlApiStudio}/search`, {
+      params: {
+        page,
+        size,
+        sort,
+        name,
+        minRating,
+        maxRating
+      }
+    });
+    
   }
 
   findByIdsStudios(idsStudios: number[]): Observable<Studio[]> {

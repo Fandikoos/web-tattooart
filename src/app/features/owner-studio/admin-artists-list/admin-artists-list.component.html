@@ -31,7 +31,7 @@
       </div>
 
       <!-- Fila de ejemplo -->
-      @for (artist of artists(); track $index) {
+      @for (artist of artists(); track artist.idArtist) {
         <div
           class="grid grid-cols-7 gap-4 py-3 px-2 rounded-lg hover:bg-white/5 transition text-sm"
         >

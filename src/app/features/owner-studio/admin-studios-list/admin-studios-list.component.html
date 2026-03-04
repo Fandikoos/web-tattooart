@@ -29,7 +29,7 @@
       </div>
 
       <!-- Fila de ejemplo -->
-      @for (studio of studios(); track $index) {
+      @for (studio of studios(); track studio.idStudio) {
         <div
           class="grid grid-cols-6 gap-4 py-3 px-2 rounded-lg hover:bg-white/5 transition"
         >
