@@ -6,7 +6,7 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
-import { studioInterceptorFn } from './shared/interceptors/studio.interceptor';
+import { studioInterceptorFn } from './core/interceptors/studio.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

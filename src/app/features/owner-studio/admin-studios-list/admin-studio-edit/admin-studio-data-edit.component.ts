@@ -1,9 +1,9 @@
 import { Component, effect, inject, input, OnInit, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Studio } from '../../../../shared/models/interfaces/Studio';
-import { StudioService } from '../../../../shared/services/studio.service';
-import { TokenService } from '../../../../shared/services/token.service';
-import { ImageService } from '../../../../shared/services/image.service';
+import { StudioService } from '../../../../core/services/studio.service';
+import { TokenService } from '../../../../core/services/token.service';
+import { ImageService } from '../../../../core/services/image.service';
 import { Image } from '../../../../shared/models/interfaces/Image';
 
 @Component({

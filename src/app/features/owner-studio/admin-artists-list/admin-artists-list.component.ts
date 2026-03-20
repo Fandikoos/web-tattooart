@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
-import { ArtistService } from '../../../shared/services/artist.service';
+import { ArtistService } from '../../../core/services/artist.service';
 import { Artist } from '../../../shared/models/interfaces/Artist';
-import { TokenService } from '../../../shared/services/token.service';
+import { TokenService } from '../../../core/services/token.service';
 import { AdminArtistEditComponent } from "./admin-artist-edit/admin-artist-edit.component";
 
 @Component({

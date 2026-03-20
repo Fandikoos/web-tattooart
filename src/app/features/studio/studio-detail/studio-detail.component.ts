@@ -1,12 +1,12 @@
 import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
-import { ArtistService } from '../../../shared/services/artist.service';
+import { ArtistService } from '../../../core/services/artist.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs';
-import { StudioService } from '../../../shared/services/studio.service';
+import { StudioService } from '../../../core/services/studio.service';
 import { LocalTimePipe } from '../../../shared/pipes/local-time/local-time.pipe';
 import { ArtistDetailComponent } from "../../artist/artist-detail/artist-detail.component";
-import { TokenService } from '../../../shared/services/token.service';
+import { TokenService } from '../../../core/services/token.service';
 import { MatDialog } from "@angular/material/dialog";
 import { MatDialogGalleryComponent } from '../../../shared/components/gallery/mat-dialog-gallery/mat-dialog-gallery.component';
 import { MatDialogReviewsComponent } from '../../../shared/components/review/mat-dialog-reviews/mat-dialog-reviews.component';

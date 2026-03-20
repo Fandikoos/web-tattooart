@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { AuthService } from '../../../shared/services/auth.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { CreateUserDto } from '../../../shared/models/dtos/CreateUserDto';
 import { Router } from '@angular/router';
 import { Exception } from '../../../core/exceptions/exceptions';

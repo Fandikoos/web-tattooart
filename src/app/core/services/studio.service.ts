@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Studio } from '../models/interfaces/Studio';
-import { PageResponse } from '../models/interfaces/PageResponse';
+import { Studio } from '../../shared/models/interfaces/Studio';
+import { PageResponse } from '../../shared/models/interfaces/PageResponse';
 import { environment } from '@environments/environment';
 
 @Injectable({
@@ -38,7 +38,7 @@ export class StudioService {
         maxRating
       }
     });
-    
+
   }
 
   findByIdsStudios(idsStudios: number[]): Observable<Studio[]> {

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { TokenService } from '../../../shared/services/token.service';
+import { TokenService } from '../../../core/services/token.service';
 import { RouterLink } from "@angular/router";
 import { AdminStudiosListComponent } from '../admin-studios-list/admin-studios-list.component';
 import { OwnerStudioComponent } from '../owner-studio.component';

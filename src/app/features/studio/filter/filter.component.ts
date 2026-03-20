@@ -1,6 +1,6 @@
 import { Component, inject, OnChanges, OnInit, output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { StudioService } from '../../../shared/services/studio.service';
+import { StudioService } from '../../../core/services/studio.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Filter } from '../../../shared/models/dtos/Filter';
 

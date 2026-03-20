@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal, computed } from '@angular/core';
-import { StudioService } from '../../../shared/services/studio.service';
+import { StudioService } from '../../../core/services/studio.service';
 import { RouterLink } from '@angular/router';
 import { FilterComponent } from "../filter/filter.component";
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { Studio } from '../../../shared/models/interfaces/Studio';
-import { PaginatorComponent } from '../../../shared/utils/paginator/paginator.component';
-import { TokenService } from '../../../shared/services/token.service';
-import { FavStudioService } from '../../../shared/services/fav-studio.service';
+import { PaginatorComponent } from '../../../shared/components/paginator/paginator.component';
+import { TokenService } from '../../../core/services/token.service';
+import { FavStudioService } from '../../../core/services/fav-studio.service';
 import { FavouriteDto } from '../../../shared/models/dtos/FavouriteDto';
 import { NgClass } from '@angular/common';
 import { Favourite } from '../../../shared/models/interfaces/Favourite';
-import { PaginatedComponent } from '../../../core/utils/PaginatedComponent';
+import { PaginatedComponent } from '../../../shared/utils/PaginatedComponent';
 import { Filter } from '../../../shared/models/dtos/Filter';
-import { studioInterceptorFn } from '../../../shared/interceptors/studio.interceptor';
+import { studioInterceptorFn } from '../../../core/interceptors/studio.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 
 

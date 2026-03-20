@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { TokenService } from '../../../shared/services/token.service';
+import { TokenService } from '../../../core/services/token.service';
 import { ProfileUserDto } from '../../../shared/models/interfaces/ProfileUserDto';
-import { FavStudioService } from '../../../shared/services/fav-studio.service';
-import { StudioService } from '../../../shared/services/studio.service';
+import { FavStudioService } from '../../../core/services/fav-studio.service';
+import { StudioService } from '../../../core/services/studio.service';
 import { Studio } from '../../../shared/models/interfaces/Studio';
 import { Router, RouterLink } from '@angular/router';
 import { Favourite } from '../../../shared/models/interfaces/Favourite';

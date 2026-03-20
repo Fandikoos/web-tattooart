@@ -1,9 +1,9 @@
 import { Component, effect, inject, input, OnInit, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Artist } from '../../../../shared/models/interfaces/Artist';
-import { ArtistService } from '../../../../shared/services/artist.service';
-import { ImageService } from '../../../../shared/services/image.service';
-import { TokenService } from '../../../../shared/services/token.service';
+import { ArtistService } from '../../../../core/services/artist.service';
+import { ImageService } from '../../../../core/services/image.service';
+import { TokenService } from '../../../../core/services/token.service';
 
 @Component({
   selector: 'app-admin-artist-edit',

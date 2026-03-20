@@ -1,10 +1,10 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, effect, inject, Inject, Input } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Review } from '../../../models/interfaces/Review';
-import { TokenService } from '../../../services/token.service';
-import { AuthService } from '../../../services/auth.service';
+import { TokenService } from '../../../../core/services/token.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { MatDialogCreateReviewComponent } from '../mat-dialog-create-review/mat-dialog-create-review.component';
-import { ReviewService } from '../../../services/review.service';
+import { ReviewService } from '../../../../core/services/review.service';
 
 @Component({
   selector: 'app-mat-dialog-reviews',
