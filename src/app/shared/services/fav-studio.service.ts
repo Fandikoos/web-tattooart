@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment.development';
 import { Favourite } from '../models/interfaces/Favourite';
 import { Observable } from 'rxjs';
 import { FavouriteDto } from '../models/dtos/FavouriteDto';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
