@@ -9,6 +9,10 @@ export default [
         data: { expectedRoles: ['admin'] },
         children: [
             {
+                path: 'home',
+                loadComponent: () => import('./admin-home/admin-home.component').then(c => c.AdminHomeComponent),
+            },
+            {
                 path: 'artists',
                 loadComponent: () => import('./admin-artists-list/admin-artists-list.component').then(c => c.AdminArtistsListComponent),
             },
@@ -18,7 +22,7 @@ export default [
             },
             {
                 path: '',
-                redirectTo: 'dashboard',
+                redirectTo: 'home',
                 pathMatch: 'full',
             }
         ]

@@ -1,0 +1,109 @@
+<div class="dashboard-wrapper">
+
+  <!-- ── PAGE HEADER ─────────────────────────────────────────────────── -->
+  <div class="dashboard-header">
+    <div>
+      <p class="header-greeting">Welcome back,</p>
+      <h1 class="header-name">{{ username() }}</h1>
+    </div>
+    <div class="header-badge">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span>Administrator</span>
+    </div>
+  </div>
+
+  <!-- ── STATS ROW ───────────────────────────────────────────────────── -->
+  <div class="stats-grid">
+    @for (stat of stats; track stat.label) {
+      <div class="stat-card" [style.--glow]="stat.glowColor">
+        <div class="stat-icon-wrap" [style.background]="'linear-gradient(135deg,' + stat.gradientFrom + ',' + stat.gradientTo + ')'">
+          <i [class]="stat.icon"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ stat.value() }}</span>
+          <span class="stat-label">{{ stat.label }}</span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- ── MAIN GRID ───────────────────────────────────────────────────── -->
+  <div class="main-grid">
+
+    <!-- ── CLOCK ─────────────────────────────────────────────────────── -->
+    <div class="glass-card clock-card">
+      <div class="card-header">
+        <i class="fa-regular fa-clock card-header-icon"></i>
+        <span>Current time</span>
+      </div>
+      <div class="clock-display">
+        <span class="clock-time">{{ currentTime() }}</span>
+      </div>
+      <div class="clock-meta">
+        <span class="clock-day">{{ currentDayName() }}</span>
+        <span class="clock-date">{{ currentDate() }}</span>
+      </div>
+      <div class="clock-pulse-ring"></div>
+    </div>
+
+    <!-- ── CALENDAR ───────────────────────────────────────────────────── -->
+    <div class="glass-card calendar-card">
+      <div class="card-header">
+        <i class="fa-solid fa-calendar-days card-header-icon"></i>
+        <span>Calendar</span>
+      </div>
+
+      <div class="calendar-nav">
+        <button class="cal-nav-btn" (click)="prevMonth()">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <span class="cal-month-label">{{ monthLabel }}</span>
+        <button class="cal-nav-btn" (click)="nextMonth()">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <div class="cal-grid">
+        @for (wd of weekDays; track $index) {
+          <div class="cal-weekday">{{ wd }}</div>
+        }
+        @for (day of calendarDays; track trackByIndex($index)) {
+          @if (day === null) {
+            <div class="cal-empty"></div>
+          } @else {
+            <button
+              class="cal-day"
+              [class.cal-today]="isToday(day)"
+              [class.cal-selected]="selectedDay() === day"
+              (click)="selectDay(day)">
+              {{ day }}
+            </button>
+          }
+        }
+      </div>
+
+      @if (selectedDay()) {
+        <div class="cal-selected-info">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>{{ monthLabel }} {{ selectedDay() }} — no appointments scheduled</span>
+        </div>
+      }
+    </div>
+
+    <!-- ── COMING SOON PLACEHOLDER ────────────────────────────────────── -->
+    <div class="glass-card coming-soon-card">
+      <div class="card-header">
+        <i class="fa-solid fa-clock-rotate-left card-header-icon"></i>
+        <span>Upcoming appointments</span>
+      </div>
+      <div class="coming-soon-body">
+        <div class="coming-soon-icon">
+          <i class="fa-solid fa-calendar-plus"></i>
+        </div>
+        <p class="coming-soon-title">Coming soon</p>
+        <p class="coming-soon-sub">Appointment management will be available once the backend module is ready.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
