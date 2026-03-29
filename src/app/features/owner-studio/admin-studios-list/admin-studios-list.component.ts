@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal, Signal } from '@angular/core';
-import { StudioService } from '../../../shared/services/studio.service';
-import { TokenService } from '../../../shared/services/token.service';
+import { StudioService } from '../../../core/services/studio.service';
+import { TokenService } from '../../../core/services/token.service';
 import { Studio } from '../../../shared/models/interfaces/Studio';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AdminStudioDataEditComponent } from "./admin-studio-edit/admin-studio-data-edit.component";

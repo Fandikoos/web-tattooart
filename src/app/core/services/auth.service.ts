@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { LoginUserDto } from '../models/dtos/LoginUserDto';
+import { LoginUserDto } from '../../shared/models/dtos/LoginUserDto';
 import { Observable } from 'rxjs';
-import { JwtTokenDto } from '../models/dtos/JwtTokenDto';
-import { environment } from '../../../environments/environment.development';
-import { CreateUserDto } from '../models/dtos/CreateUserDto';
+import { JwtTokenDto } from '../../shared/models/dtos/JwtTokenDto';
+import { CreateUserDto } from '../../shared/models/dtos/CreateUserDto';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,6 @@ export class AuthService {
   }
 
   public getUsernameByIdUser(idUser: number): Observable<string>{
-    return this.httpClient.get<string>(`${this.urlAuth}/${idUser}`);  
+    return this.httpClient.get<string>(`${this.urlAuth}/${idUser}`);
  }
 }

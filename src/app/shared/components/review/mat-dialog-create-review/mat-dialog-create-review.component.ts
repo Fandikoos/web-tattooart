@@ -2,8 +2,8 @@ import { Component, inject, Inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Review } from '../../../models/interfaces/Review';
-import { ReviewService } from '../../../services/review.service';
-import { TokenService } from '../../../services/token.service';
+import { ReviewService } from '../../../../core/services/review.service';
+import { TokenService } from '../../../../core/services/token.service';
 
 @Component({
   selector: 'app-mat-dialog-create-review',

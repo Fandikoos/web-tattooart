@@ -28,4 +28,3 @@ export const studioInterceptorFn: HttpInterceptorFn = (req, next) => {
   // Si no hay token, enviamos la request tal cual
   return next(req);
 };
-

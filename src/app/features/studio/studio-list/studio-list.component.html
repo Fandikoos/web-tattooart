@@ -2,14 +2,14 @@
   <div class="flex flex-col lg:flex-row gap-8">
     <!-- Sección de Filtros (más estrecha) -->
     <aside class="lg:w-1/4 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md h-fit sticky top-4">
-      <app-filter (filterChangeNameValue)="onFilterChange($event)"/>
+      <app-filter (filterChange)="onFilterChange($event)"/>
     </aside>
 
     <!-- Sección principal de estudios (más ancha) -->
     <main class="lg:w-3/4">
       @if (studios() != null) {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          @for (studio of studios(); track $index) {
+          @for (studio of studios(); track studio.idStudio) {
             <article class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl transform origin-center">
 
               <!-- Imagen del estudio -->

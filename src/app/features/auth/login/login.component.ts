@@ -1,7 +1,7 @@
 import { Component, inject, INJECTOR, OnInit, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../../shared/services/auth.service';
-import { TokenService } from '../../../shared/services/token.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { TokenService } from '../../../core/services/token.service';
 import { Router, RouterLink } from '@angular/router';
 import { LoginUserDto } from '../../../shared/models/dtos/LoginUserDto';
 import { toSignal } from '@angular/core/rxjs-interop';

@@ -1,61 +1,101 @@
-<div class="p-6">
-  <!-- Encabezado -->
-  <div class="flex items-center mb-6">
-    <h1 class="text-2xl font-semibold text-white tracking-wide">My Studios</h1>
-    <button
-      type="button"
-      class="text-white bg-gradient-to-r ml-4 from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center shadow-md hover:shadow-lg transition-all"
-      (click)="prepareAddStudio()"
-    >
-      + Add Studio
-    </button>
-  </div>
+<div class="flex-1 min-h-screen bg-gray-950 p-8">
 
   @if (!editStudio) {
-    <!-- Contenedor del listado -->
-    <div
-      class="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl shadow-lg border border-white/10"
-    >
-      <!-- Header del listado -->
-      <div
-        class="grid grid-cols-6 gap-4 border-b border-white/10 pb-3 mb-4 text-gray-300 text-sm uppercase tracking-wide"
+
+    <!-- Page Header -->
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="text-3xl font-bold text-white tracking-tight">My Studios</h1>
+        <p class="text-gray-400 text-sm mt-1">Manage and configure your tattoo studios</p>
+      </div>
+      <button
+        type="button"
+        class="flex items-center gap-2 text-white bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 focus:ring-4 focus:outline-none focus:ring-cyan-800 font-medium rounded-xl text-sm px-5 py-2.5 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 transition-all"
+        (click)="prepareAddStudio()"
       >
-        <span>Name</span>
-        <span>Location</span>
-        <span>Artists</span>
-        <span>Logo</span>
-        <span>Close Schedule</span>
-        <span>Actions</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+          <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+        </svg>
+        Add Studio
+      </button>
+    </div>
+
+    <!-- Stats -->
+    <div class="mb-6">
+      <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 border border-white/10 rounded-2xl p-5 flex items-center gap-4 w-fit">
+        <div class="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-cyan-400">
+            <path fill-rule="evenodd" d="M4.5 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5h-.75V3.75a.75.75 0 0 0 0-1.5h-15ZM9 6a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5H9Zm-.75 3.75A.75.75 0 0 1 9 9h1.5a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM9 12a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5H9Zm3.75-5.25A.75.75 0 0 1 13.5 6H15a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75ZM13.5 9a.75.75 0 0 0 0 1.5H15A.75.75 0 0 0 15 9h-1.5Zm-.75 3.75a.75.75 0 0 1 .75-.75H15a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75ZM9 19.5v-2.25a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-4.5A.75.75 0 0 1 9 19.5Z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div>
+          <p class="text-gray-400 text-xs font-medium uppercase tracking-wide">Total Studios</p>
+          <p class="text-white text-2xl font-bold">{{ studios().length }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="bg-gradient-to-br from-gray-800/60 to-gray-900/60 rounded-2xl border border-white/10 shadow-2xl overflow-hidden">
+
+      <!-- Table Header -->
+      <div class="grid grid-cols-6 gap-4 px-6 py-4 border-b border-white/10 bg-white/5">
+        <span class="text-gray-400 text-xs font-semibold uppercase tracking-widest">Name</span>
+        <span class="text-gray-400 text-xs font-semibold uppercase tracking-widest">Location</span>
+        <span class="text-gray-400 text-xs font-semibold uppercase tracking-widest">Artists</span>
+        <span class="text-gray-400 text-xs font-semibold uppercase tracking-widest">Logo</span>
+        <span class="text-gray-400 text-xs font-semibold uppercase tracking-widest">Close Schedule</span>
+        <span class="text-gray-400 text-xs font-semibold uppercase tracking-widest">Actions</span>
       </div>
 
-      <!-- Fila de ejemplo -->
-      @for (studio of studios(); track $index) {
-        <div
-          class="grid grid-cols-6 gap-4 py-3 px-2 rounded-lg hover:bg-white/5 transition"
-        >
-          <span class="font-medium">{{ studio.name }}</span>
-          <span>{{ studio.address }}</span>
-          <span>{{ studio.artists.length }}</span>
-          <img srcset="{{ studio.logo }}" class="w-30 h-15 object-cover rounded-2xl" />
-          <span>{{ studio.closeSchedule }}</span>
-
+      <!-- Table Rows -->
+      @for (studio of studios(); track studio.idStudio) {
+        <div class="grid grid-cols-6 gap-4 px-6 py-4 border-b border-white/5 hover:bg-white/5 transition-colors items-center last:border-0">
+          <span class="text-white font-medium text-sm">{{ studio.name }}</span>
+          <span class="text-gray-300 text-sm">{{ studio.address }}</span>
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-400 text-sm font-bold">
+            {{ studio.artists.length }}
+          </span>
+          <img [src]="studio.logo" class="w-12 h-12 object-cover rounded-xl border border-white/10" alt="{{ studio.name }}" />
+          <span class="text-gray-300 text-sm">{{ studio.closeSchedule }}</span>
           <div class="flex gap-2">
             <button
               (click)="prepareEditStudio(studio)"
-              class="text-blue-400 hover:text-blue-300 font-medium text-sm transition"
+              class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 hover:text-blue-300 transition-all text-xs font-medium border border-blue-500/20"
             >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5">
+                <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
+              </svg>
               Edit
             </button>
             <button
               (click)="deleteStudio(studio.idStudio!)"
-              class="text-red-400 hover:text-red-300 font-medium text-sm transition"
+              class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-all text-xs font-medium border border-red-500/20"
             >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5">
+                <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
+              </svg>
               Delete
             </button>
           </div>
         </div>
       }
+
+      <!-- Empty State -->
+      @if (studios().length === 0) {
+        <div class="flex flex-col items-center justify-center py-16 text-center">
+          <div class="w-16 h-16 rounded-full bg-gray-700/50 flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-gray-500">
+              <path fill-rule="evenodd" d="M4.5 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5h-.75V3.75a.75.75 0 0 0 0-1.5h-15Z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <p class="text-gray-400 font-medium">No studios yet</p>
+          <p class="text-gray-600 text-sm mt-1">Add your first studio to get started</p>
+        </div>
+      }
+
     </div>
+
   } @else {
     <app-admin-studio-data-edit [studio]="studioToEdit()" (studioToEmit)="onEditFinished($event)"/>
   }

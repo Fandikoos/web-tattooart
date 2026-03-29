@@ -21,7 +21,7 @@ export class GoogleMapsComponent implements OnChanges {
       center: this.center(),
       zoom: this.zoom(),
       streetViewControl: this.streetViewControl()
-    }  
+    }
   }
 
 }
