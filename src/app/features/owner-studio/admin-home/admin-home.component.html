@@ -1,5 +1,4 @@
 <div class="dashboard-wrapper">
-
   <!-- ── PAGE HEADER ─────────────────────────────────────────────────── -->
   <div class="dashboard-header">
     <div>
@@ -16,7 +15,16 @@
   <div class="stats-grid">
     @for (stat of stats; track stat.label) {
       <div class="stat-card" [style.--glow]="stat.glowColor">
-        <div class="stat-icon-wrap" [style.background]="'linear-gradient(135deg,' + stat.gradientFrom + ',' + stat.gradientTo + ')'">
+        <div
+          class="stat-icon-wrap"
+          [style.background]="
+            'linear-gradient(135deg,' +
+            stat.gradientFrom +
+            ',' +
+            stat.gradientTo +
+            ')'
+          "
+        >
           <i [class]="stat.icon"></i>
         </div>
         <div class="stat-info">
@@ -29,7 +37,6 @@
 
   <!-- ── MAIN GRID ───────────────────────────────────────────────────── -->
   <div class="main-grid">
-
     <!-- ── CLOCK ─────────────────────────────────────────────────────── -->
     <div class="glass-card clock-card">
       <div class="card-header">
@@ -48,9 +55,12 @@
 
     <!-- ── CALENDAR ───────────────────────────────────────────────────── -->
     <div class="glass-card calendar-card">
-      <div class="card-header">
+      <div class="grid card-header">
         <i class="fa-solid fa-calendar-days card-header-icon"></i>
         <span>Calendar</span>
+        <button class="add-button" (click)="openDialogToCreateNewBooking()">
+            <i class="fa-solid fa-add"></i>
+        </button>
       </div>
 
       <div class="calendar-nav">
@@ -75,35 +85,72 @@
               class="cal-day"
               [class.cal-today]="isToday(day)"
               [class.cal-selected]="selectedDay() === day"
-              (click)="selectDay(day)">
+              [class.cal-has-appt]="bookingColorForDay(day) !== null"
+              [style.--booking-color]="bookingColorForDay(day)"
+              (click)="selectDay(day)"
+            >
               {{ day }}
+              @if (bookingColorForDay(day); as color) {
+                <span class="cal-dot" [style.background]="color"></span>
+              }
             </button>
           }
         }
       </div>
 
-      @if (selectedDay()) {
-        <div class="cal-selected-info">
-          <i class="fa-solid fa-circle-info"></i>
-          <span>{{ monthLabel }} {{ selectedDay() }} — no appointments scheduled</span>
-        </div>
-      }
     </div>
 
-    <!-- ── COMING SOON PLACEHOLDER ────────────────────────────────────── -->
-    <div class="glass-card coming-soon-card">
+    <!-- ── UPCOMING APPOINTMENTS ─────────────────────────────────────── -->
+    <div class="glass-card appointments-card">
       <div class="card-header">
         <i class="fa-solid fa-clock-rotate-left card-header-icon"></i>
         <span>Upcoming appointments</span>
+        @if (bookings().length > 0) {
+          <span class="unread-badge">{{ bookings().length }}</span>
+        }
       </div>
-      <div class="coming-soon-body">
-        <div class="coming-soon-icon">
-          <i class="fa-solid fa-calendar-plus"></i>
-        </div>
-        <p class="coming-soon-title">Coming soon</p>
-        <p class="coming-soon-sub">Appointment management will be available once the backend module is ready.</p>
-      </div>
-    </div>
 
+      @if (bookings().length === 0) {
+        <div class="coming-soon-body">
+          <div class="coming-soon-icon">
+            <i class="fa-solid fa-calendar-xmark"></i>
+          </div>
+          <p class="coming-soon-title">No appointments</p>
+          <p class="coming-soon-sub">
+            No upcoming appointments found for your studios.
+          </p>
+        </div>
+      } @else {
+        <ul class="appt-list">
+          @for (booking of bookings(); track booking.idBooking) {
+            <li class="appt-item">
+              <div class="appt-time-block">
+                <span class="appt-date">{{
+                  booking.startDateTime | date: "MMM d"
+                }}</span>
+                <span class="appt-hour">{{
+                  booking.startDateTime | date: "HH:mm"
+                }}</span>
+              </div>
+              <div class="appt-info">
+                <span class="appt-client">{{ booking.clientName }}</span>
+                <span class="appt-studio">
+                  <i class="fa-solid fa-palette"></i>
+                  {{ booking.title }}
+                </span>
+              </div>
+              <div class="appt-tags">
+                <span class="style-tag">{{ booking.type }}</span>
+                <span
+                  class="status-tag"
+                  [ngClass]="statusClass(booking.status)"
+                  >{{ booking.status }}</span
+                >
+              </div>
+            </li>
+          }
+        </ul>
+      }
+    </div>
   </div>
 </div>

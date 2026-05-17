@@ -1,0 +1,243 @@
+<div class="dialog-shell">
+
+  <!-- ── HEADER ─────────────────────────────────────────────────────────── -->
+  <div class="dialog-header">
+    <div class="header-left">
+      <div class="header-icon-wrap">
+        <i class="fa-solid fa-calendar-plus"></i>
+      </div>
+      <div>
+        <p class="header-eyebrow">{{ isEditMode ? 'Edit appointment' : 'New appointment' }}</p>
+        <h2 class="header-title">{{ isEditMode ? 'Edit booking' : 'Create booking' }}</h2>
+      </div>
+    </div>
+    <button class="close-btn" [mat-dialog-close]="false" aria-label="Close">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <div class="dialog-divider"></div>
+
+  <!-- ── BODY ───────────────────────────────────────────────────────────── -->
+  <div class="dialog-body">
+    <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()" id="booking-form">
+
+      <!-- Title -->
+      <div class="field-group">
+        <label class="field-label" for="title">
+          Title <span class="required-mark">*</span>
+        </label>
+        <input
+          id="title"
+          type="text"
+          class="field-input"
+          [class.field-error]="isInvalid('title')"
+          placeholder="e.g. Floral tattoo – Marta"
+          formControlName="title"
+        />
+        @if (isInvalid('title')) {
+          <span class="error-text">Title is required.</span>
+        }
+      </div>
+
+      <!-- Description -->
+      <div class="field-group">
+        <label class="field-label" for="description">Description</label>
+        <textarea
+          id="description"
+          class="field-input field-textarea"
+          placeholder="Additional notes or design details…"
+          rows="2"
+          formControlName="description"
+        ></textarea>
+      </div>
+
+      <!-- Start / End datetime (side by side) -->
+      <div class="row-2col">
+        <div class="field-group">
+          <label class="field-label" for="startDateTime">
+            Start <span class="required-mark">*</span>
+          </label>
+          <input
+            id="startDateTime"
+            type="datetime-local"
+            class="field-input"
+            [class.field-error]="isInvalid('startDateTime')"
+            formControlName="startDateTime"
+          />
+          @if (isInvalid('startDateTime')) {
+            <span class="error-text">Start date is required.</span>
+          }
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="endDateTime">End</label>
+          <input
+            id="endDateTime"
+            type="datetime-local"
+            class="field-input"
+            formControlName="endDateTime"
+          />
+        </div>
+      </div>
+
+      <!-- Type / Status (side by side) -->
+      <div class="row-2col">
+        <div class="field-group">
+          <label class="field-label" for="type">
+            Type <span class="required-mark">*</span>
+          </label>
+          <select
+            id="type"
+            class="field-input field-select"
+            [class.field-error]="isInvalid('type')"
+            formControlName="type"
+          >
+            @for (t of bookingTypes; track t) {
+              <option [value]="t">{{ t }}</option>
+            }
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="status">
+            Status <span class="required-mark">*</span>
+          </label>
+          <select
+            id="status"
+            class="field-input field-select"
+            [class.field-error]="isInvalid('status')"
+            formControlName="status"
+          >
+            @for (s of bookingStatuses; track s) {
+              <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <!-- Studio -->
+      <div class="field-group">
+        <label class="field-label" for="idTattooStudio">
+          Studio <span class="required-mark">*</span>
+        </label>
+        <select
+          id="idTattooStudio"
+          class="field-input field-select"
+          [class.field-error]="isInvalid('idTattooStudio')"
+          formControlName="idTattooStudio"
+          (change)="onStudioChange(+$any($event.target).value || null)"
+        >
+          <option [value]="null">-- Select a studio --</option>
+          @for (studio of data.studios; track studio.idStudio) {
+            <option [value]="studio.idStudio">{{ studio.name }}</option>
+          }
+        </select>
+        @if (isInvalid('idTattooStudio')) {
+          <span class="error-text">Studio is required.</span>
+        }
+      </div>
+
+      <!-- Artist -->
+      <div class="field-group">
+        <label class="field-label" for="idArtist">Artist</label>
+        <select
+          id="idArtist"
+          class="field-input field-select"
+          formControlName="idArtist"
+          [disabled]="filteredArtists.length === 0"
+        >
+          <option [value]="null">-- No artist assigned --</option>
+          @for (artist of filteredArtists; track artist.idArtist) {
+            <option [value]="artist.idArtist">{{ artist.name }} {{ artist.surname }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Client info -->
+      <div class="section-label">Client information (optional)</div>
+
+      <div class="field-group">
+        <label class="field-label" for="clientName">Client name</label>
+        <input
+          id="clientName"
+          type="text"
+          class="field-input"
+          placeholder="e.g. Marta García"
+          formControlName="clientName"
+        />
+      </div>
+
+      <div class="row-2col">
+        <div class="field-group">
+          <label class="field-label" for="clientPhone">Phone</label>
+          <input
+            id="clientPhone"
+            type="tel"
+            class="field-input"
+            placeholder="612 345 678"
+            formControlName="clientPhone"
+          />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="clientEmail">Email</label>
+          <input
+            id="clientEmail"
+            type="email"
+            class="field-input"
+            [class.field-error]="isInvalid('clientEmail')"
+            placeholder="client@email.com"
+            formControlName="clientEmail"
+          />
+          @if (isInvalid('clientEmail')) {
+            <span class="error-text">Enter a valid email.</span>
+          }
+        </div>
+      </div>
+
+      <!-- Color -->
+      <div class="field-group color-field-group">
+        <label class="field-label" for="color">Event color</label>
+        <div class="color-picker-wrap">
+          <input
+            id="color"
+            type="color"
+            class="color-input"
+            formControlName="color"
+          />
+          <span class="color-preview-label">{{ bookingForm.get('color')?.value }}</span>
+        </div>
+      </div>
+
+      <!-- Error message -->
+      @if (errorMessage) {
+        <div class="error-banner">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          {{ errorMessage }}
+        </div>
+      }
+
+    </form>
+  </div>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────────────── -->
+  <div class="dialog-footer">
+    <button class="footer-cancel-btn" [mat-dialog-close]="false">Cancel</button>
+    <button
+      type="submit"
+      form="booking-form"
+      class="footer-submit-btn"
+      [disabled]="isSubmitting"
+    >
+      @if (isSubmitting) {
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Guardando…
+      } @else if (isEditMode) {
+        <i class="fa-solid fa-floppy-disk"></i>
+        Guardar cambios
+      } @else {
+        <i class="fa-solid fa-calendar-plus"></i>
+        Crear cita
+      }
+    </button>
+  </div>
+
+</div>

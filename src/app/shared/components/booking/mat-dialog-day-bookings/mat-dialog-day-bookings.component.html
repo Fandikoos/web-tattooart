@@ -1,0 +1,107 @@
+<div class="dialog-shell">
+
+  <!-- ── HEADER ─────────────────────────────────────────────────────────── -->
+  <div class="dialog-header">
+    <div class="header-left">
+      <div class="header-icon-wrap">
+        <i class="fa-solid fa-calendar-day"></i>
+      </div>
+      <div>
+        <p class="header-eyebrow">Appointments</p>
+        <h2 class="header-date">{{ data.date }}</h2>
+      </div>
+    </div>
+    <button class="close-btn" (click)="close()" aria-label="Close">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <!-- ── DIVIDER ─────────────────────────────────────────────────────────── -->
+  <div class="dialog-divider"></div>
+
+  <!-- ── BODY ───────────────────────────────────────────────────────────── -->
+  <div class="dialog-body">
+
+    @if (bookings().length === 0) {
+      <div class="empty-state">
+        <div class="empty-icon-ring">
+          <i class="fa-regular fa-calendar-xmark"></i>
+        </div>
+        <p class="empty-title">No appointments</p>
+        <p class="empty-sub">Nothing scheduled for this day.</p>
+      </div>
+    } @else {
+      <ul class="booking-list">
+        @for (booking of bookings(); track booking.idBooking) {
+          <li class="booking-item">
+            <!-- Franja de color -->
+            <span class="color-strip" [style.background]="booking.color || '#3b82f6'"></span>
+
+            <!-- Hora -->
+            <div class="time-block">
+              <span class="time-hour">{{ booking.startDateTime | date:'HH:mm' }}</span>
+              <span class="time-sep">↓</span>
+              <span class="time-hour time-end">{{ booking.endDateTime | date:'HH:mm' }}</span>
+            </div>
+
+            <!-- Info principal -->
+            <div class="booking-info">
+              <span class="booking-client">{{ booking.clientName }}</span>
+              <span class="booking-meta">
+                <i class="fa-solid fa-pen-nib"></i>
+                {{ booking.title }}
+              </span>
+              <span class="booking-meta">
+                <i class="fa-solid fa-store"></i>
+                {{ booking.studioName }}
+              </span>
+            </div>
+
+            <!-- Tags -->
+            <div class="booking-tags">
+              <span class="type-tag">{{ booking.type }}</span>
+              <span class="status-tag" [ngClass]="statusClass(booking.status)">
+                {{ booking.status }}
+              </span>
+            </div>
+
+            <!-- Acciones -->
+            <div class="booking-actions">
+              <button
+                class="action-btn edit-btn"
+                title="Editar cita"
+                (click)="openEdit(booking)"
+              >
+                <i class="fa-solid fa-pen"></i>
+              </button>
+              <button
+                class="action-btn delete-btn"
+                title="Eliminar cita"
+                [disabled]="deletingId() === booking.idBooking"
+                (click)="confirmDelete(booking)"
+              >
+                @if (deletingId() === booking.idBooking) {
+                  <i class="fa-solid fa-spinner fa-spin"></i>
+                } @else {
+                  <i class="fa-solid fa-trash"></i>
+                }
+              </button>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+
+  </div>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────────────── -->
+  <div class="dialog-footer">
+    <span class="footer-count">
+      @if (bookings().length > 0) {
+        {{ bookings().length }} appointment{{ bookings().length !== 1 ? 's' : '' }}
+      }
+    </span>
+    <button class="footer-close-btn" (click)="close()">Close</button>
+  </div>
+
+</div>

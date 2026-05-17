@@ -8,4 +8,5 @@ export const environment = {
     apiUrlFav: 'http://localhost:8080/tattooart/v1/favourite',
     apiUrlImage: 'http://localhost:8080/tattooart/v1/studios',
     apiUrlReview: 'http://localhost:8080/tattooart/v1/review',
+    apiUrlBooking: 'http://localhost:8080/tattooart/v1/booking',
 };
