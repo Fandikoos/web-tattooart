@@ -5,6 +5,8 @@ import { Studio } from '../../shared/models/interfaces/Studio';
 import { PageResponse } from '../../shared/models/interfaces/PageResponse';
 import { environment } from '@environments/environment';
 
+const ID_STUDIO = 'idStudio';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +15,7 @@ export class StudioService {
   private httpClient = inject(HttpClient);
   private urlApiStudio = environment.apiUrlStudio;
 
-  getAll(page: number, size: number, sort: string = 'idStudio'): Observable<PageResponse<Studio>> {
+  getAll(page: number, size: number, sort: string = ID_STUDIO): Observable<PageResponse<Studio>> {
     return this.httpClient.get<PageResponse<Studio>>(this.urlApiStudio, {
       params: {
         page,

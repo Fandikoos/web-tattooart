@@ -43,4 +43,6 @@ Thumbs.db
 
 # Claude Code
 CLAUDE.md
-/.claude/settings.local.json
+.claude/
+.agents/
+skills-lock.json
